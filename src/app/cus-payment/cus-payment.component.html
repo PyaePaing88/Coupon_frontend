@@ -1,0 +1,76 @@
+<app-navigation></app-navigation>
+<div class="payment-container">
+  <div class="payment">
+    <!-- QR Codes Section -->
+    <div class="qr-codes">
+      <div class="qr-code">
+        <img [src]="baseUrl + qrCode" alt="QR Code" />
+      </div>
+    </div>
+
+    <!-- Payment Form -->
+    <form class="payment-form" (ngSubmit)="submitPayment()">
+      <div class="payment-options">
+        <label *ngFor="let method of paymentMethods" class="payment-type">
+          <input
+            type="radio"
+            name="payment-type"
+            [value]="method.paymentType"
+            [(ngModel)]="paymentType"
+            (change)="changeQR(method.paymentType)"
+            [checked]="paymentType === method.paymentType"
+          />
+          <span>{{ method.paymentType }}</span>
+        </label>
+      </div>
+
+      <label for="transaction-id">Transaction ID:</label>
+      <input
+        type="text"
+        id="transaction-id"
+        name="transaction-id"
+        [(ngModel)]="transactionId"
+        required
+      />
+
+      <label for="total-amount">Total Payment Amount:</label>
+      <input
+        type="number"
+        id="total-amount"
+        name="total-amount"
+        [value]="totalAmount"
+        readonly
+      />
+
+      <button type="submit">Submit Payment</button>
+    </form>
+  </div>
+
+  <!-- Package Section -->
+  <div class="packages-list">
+    <h4>Selected Package</h4>
+    <div class="package-card">
+      <div class="package-card-inner">
+        <img
+          class="package-img"
+          [src]="baseUrl + packageDetails?.image"
+          alt="{{ packageDetails?.name }}"
+        />
+        <div class="package-details">
+          <h5>{{ packageDetails?.name }}</h5>
+          <p style="display: none">{{ packageDetails?.id }}</p>
+          <p>Unit Price: {{ packageDetails?.unit_price }} MMK</p>
+          <p>Chosen Qty: {{ packageDetails?.selectedQuantity }}</p>
+          <p>
+            Total Price:
+            {{
+              (packageDetails?.unit_price || 0) *
+                (packageDetails?.selectedQuantity || 1)
+            }}
+            MMK
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

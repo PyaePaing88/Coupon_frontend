@@ -1,0 +1,48 @@
+<svg width="50" height="70" viewBox="0 0 50 70" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shadow -->
+  <ellipse cx="25" cy="65" rx="10" ry="3" fill="rgba(0,0,0,0.2)" style="animation: shadowPulse 1.5s infinite;">
+    <animate attributeName="rx" values="10;12;10" dur="1.5s" repeatCount="indefinite" />
+    <animate attributeName="ry" values="3;2;3" dur="1.5s" repeatCount="indefinite" />
+  </ellipse>
+
+  <!-- Marker Shape with Gradient -->
+  <path id="marker" d="M25 0C11.193 0 0 11.193 0 25C0 38.807 25 70 25 70C25 70 50 38.807 50 25C50 11.193 38.807 0 25 0ZM25 45C18.096 45 12.5 39.404 12.5 32.5C12.5 25.596 18.096 20 25 20C31.904 20 37.5 25.596 37.5 32.5C37.5 39.404 31.904 45 25 45Z" fill="url(#gradient)" transform-origin="25 70" style="animation: pulse 1.5s infinite;">
+    <!-- Animation -->
+    <animateTransform attributeName="transform" type="scale" values="1;1.1;1" dur="1.5s" repeatCount="indefinite" />
+  </path>
+
+  <!-- Gradient Fill -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF416C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF4B2B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Glow Effect -->
+  <circle cx="25" cy="25" r="20" fill="none" stroke="url(#gradient)" stroke-width="5" stroke-opacity="0.3" style="animation: glow 1.5s infinite;">
+    <animate attributeName="r" values="20;22;20" dur="1.5s" repeatCount="indefinite" />
+    <animate attributeName="stroke-opacity" values="0.3;0.1;0.3" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- CSS Animations -->
+  <style>
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes glow {
+      0% { r: 20; stroke-opacity: 0.3; }
+      50% { r: 22; stroke-opacity: 0.1; }
+      100% { r: 20; stroke-opacity: 0.3; }
+    }
+
+    @keyframes shadowPulse {
+      0% { rx: 10; ry: 3; }
+      50% { rx: 12; ry: 2; }
+      100% { rx: 10; ry: 3; }
+    }
+  </style>
+</svg>

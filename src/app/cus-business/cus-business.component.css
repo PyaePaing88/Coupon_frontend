@@ -1,0 +1,600 @@
+/* Banner */
+.banner {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.banner-overlay h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 90%;
+}
+
+.info-container {
+  margin-left: 20px;
+  width: 50%;
+  border-right: 1px solid #ddd;
+}
+
+.info-container h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.categories-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.category-item {
+  background-color: #ccc;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.business-contact {
+  margin-top: 20px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.info i {
+  margin-bottom: 10px;
+  margin-right: 20px;
+  color: #007bff;
+}
+
+/*------------------ Average Rating Section ----------------------*/
+.rating-container {
+  width: 40%;
+  align-items: center;
+}
+
+.average-rating-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.average-rating {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.out-of {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.star-rating {
+  justify-content: center;
+  margin: 10px auto;
+}
+
+.star {
+  font-size: 1.5rem;
+  margin: 0 2px;
+  color: #ddd;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #ffcc00;
+}
+
+.total-ratings {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.rating-breakdown {
+  width: 100%;
+}
+
+.rating-breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.rating-stars {
+  font-weight: bold;
+  color: #666;
+  width: 10%;
+}
+
+.progress-bar-container {
+  width: 100%;
+  margin: 0 5px;
+}
+
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+  position: relative;
+}
+
+.progress {
+  background: #fab400;
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.rating-count {
+  font-size: 0.9rem;
+  color: #666;
+  width: 5%;
+  text-align: right;
+}
+
+/* ---------------------------Tabs ------------------------*/
+.tabs {
+  margin: 10px auto;
+  width: 90%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabs nav {
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-links {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  width: 40px;
+}
+
+.tab-links li {
+  flex: 1;
+  text-align: center;
+  padding: 15px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #555;
+}
+
+.tab-links li.active {
+  color: #fab400;
+  border-bottom: 3px solid #fab400;
+}
+
+.tab-links li:hover {
+  background-color: #fbe6c4;
+}
+
+.tab-content {
+  padding: 20px;
+  color: #555;
+}
+
+.tab-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.tab-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------------Container for the package list---------------------- */
+.package-container {
+  display: flex;
+  gap: 20px;
+}
+
+.package-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 300px; /* Adjust the width as needed */
+}
+
+.package-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for package image */
+.package-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+/* Package info container */
+.package-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  width: 100%;
+}
+
+.package-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.package-price,
+.package-qty {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.package-price {
+  font-weight: bold;
+}
+
+/* Styling for the title of the package */
+.package-details h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Styling for the price and quantity */
+.package-details p {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+/*------------revier list----------------*/
+.review-card {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0;
+}
+
+.review-date {
+  font-size: 14px;
+  color: #888;
+}
+
+.review-rating {
+  margin: 8px 0;
+  color: #ffb400; /* Gold for stars */
+}
+
+.review-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-message {
+  font-size: 15px;
+  margin: 12px 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.review-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+button.like-button,
+button.dislike-button {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  color: #666;
+  border: none;
+  border-radius: 4px;
+  font-size: 20px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+button.like-button:hover,
+button.dislike-button:hover {
+  background: #fff;
+  color: #007bff;
+  border-color: #007bff;
+}
+
+button.like-button:disabled,
+button.dislike-button:disabled {
+  background: #fff;
+  color: #007bff;
+  cursor: not-allowed;
+}
+
+.fi {
+  font-size: 18px;
+}
+
+/*------------revier form----------------*/
+.review-form-container {
+  background: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: #555;
+}
+
+.messagebox {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px 0 0 10px;
+}
+
+.messagebox:focus {
+  border-color: #333;
+  outline: none;
+}
+
+.submit {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #007bff;
+  padding: 8px 15px;
+  font-size: larger;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+}
+
+.submit:hover {
+  color: #005bbc;
+}
+
+.toggle-reviews-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.toggle-reviews-link :hover {
+  color: #000;
+}
+
+.toggle-reviews-link:hover {
+  text-decoration: none;
+}
+
+/* Star Rating Style */
+.star-rating {
+  display: flex;
+  gap: 5px;
+}
+
+.star {
+  font-size: 30px;
+  cursor: pointer;
+  color: #d3d3d3; /* Default gray for empty stars */
+}
+
+.star.filled {
+  color: #ffcc00; /* Gold for filled stars */
+}
+
+@media (max-width: 768px) {
+  .banner {
+    height: 200px;
+  }
+
+  .banner-overlay h1 {
+    font-size: 1.8rem;
+  }
+
+  .info-container {
+    width: 90%;
+    border-right: none;
+  }
+
+  .business-info {
+    text-align: center;
+  }
+
+  .average-rating-container {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .rating-breakdown-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .package-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .package-img {
+    width: 100%;
+    height: 350px;
+  }
+
+  .business-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .rating-stars {
+    width: 20%;
+    text-align: right;
+  }
+
+  .rating-container {
+    width: 90%;
+  }
+
+  .rating .star {
+    font-size: 1.2rem;
+  }
+
+  .rating span:last-child {
+    font-size: 0.9rem;
+  }
+  .package-item {
+    max-width: 90%;
+  }
+
+  .tab-links li {
+    text-align: left;
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .tab-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .tab-content p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs {
+    width: 100%;
+  }
+
+  .tab-content h2 {
+    font-size: 1.1rem;
+  }
+
+  .tab-content p {
+    font-size: 0.8rem;
+  }
+
+  .package-item {
+    max-width: 100%;
+    margin: 10px 0;
+  }
+}
+
+.sold-out {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 0, 0, 0.8); /* Semi-transparent red */
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  z-index: 10; /* Ensures it appears above other content */
+  pointer-events: none; /* Prevents interaction with the message */
+}
+
+.package-item {
+  position: relative; /* Establish a positioning context for the "Sold Out" message */
+  overflow: hidden; /* Ensures content stays within the package item */
+}

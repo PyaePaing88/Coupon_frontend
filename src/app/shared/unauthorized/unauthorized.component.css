@@ -1,0 +1,85 @@
+.error-card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* Full viewport height */
+	background-color: #f8f9fa;
+	padding: 20px; /* Add padding for better mobile layout */
+}
+  
+.error-middle {
+	background-color: white;
+	padding: 30px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	width: 40%;
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* Responsive image */
+.error-image {
+	width: 100%; /* Make it responsive */
+	max-width: 400px; /* Limit max width */
+	height: auto;
+	margin-bottom: 20px;
+}
+
+.error-middle h1 {
+	color: #dc3545;
+	font-size: 40px;
+	margin-bottom: 20px;
+}
+
+.error-middle p {
+	font-size: 16px;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+/* Responsive button */
+.back-button {
+	padding: 10px 20px;
+	font-size: 16px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 15px;
+	width: 30%;
+	max-width: 200px; /* Prevents button from being too wide */
+	display: block;
+	text-align: center;
+}
+
+.back-button:hover {
+	background-color: #0056b3;
+}
+
+/* 📱 Mobile Responsiveness */
+@media (max-width: 768px) {
+	.error-middle {
+		width: 90%; /* Expand width on smaller screens */
+		padding: 20px; /* Reduce padding */
+	}
+
+	.error-middle h1 {
+		font-size: 28px; /* Reduce heading size */
+	}
+
+	.error-middle p {
+		font-size: 14px;
+	}
+
+	.error-image {
+		max-width: 300px; /* Smaller image for mobile */
+	}
+
+	.back-button {
+		width: 70%; /* Wider button on small screens */
+	}
+}

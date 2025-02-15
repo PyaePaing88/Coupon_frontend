@@ -1,0 +1,36 @@
+<!-- Packages Section -->
+<div
+  *ngIf="deletedPackages && deletedPackages.length > 0; else noPackages"
+  class="packages-container"
+>
+  <div class="package-card" *ngFor="let package of deletedPackages">
+    <!-- Sold Out Message for Packages with Zero Quantity -->
+    <!-- <p *ngIf="package.quantity === 0" class="sold-out">Sold Out</p> -->
+
+    <div *ngIf="package.image" class="package-image-container">
+      <img
+        [src]="baseUrl + package.image"
+        alt="Package Image"
+        class="package-image"
+      />
+    </div>
+    <div class="package-info">
+      <h3 class="package-name">{{ package.name }}</h3>
+      <p class="package-qty">
+        Expired date: {{ package.expired_date | date : "short" }}
+      </p>
+      <p class="package-qty">Quantity: {{ package.quantity }}</p>
+      <p class="package-price">Price: {{ package.unit_price }} MMK</p>
+    </div>
+    <div class="btn-container">
+      <button class="btn-cart" (click)="restorePackage(package.id)">
+        Restore
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Fallback Message -->
+<ng-template #noPackages>
+  <p class="no-data-message">Deleted packages is empty now.</p>
+</ng-template>

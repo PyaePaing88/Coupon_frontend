@@ -1,0 +1,42 @@
+<app-business-navigation></app-business-navigation>
+<div class="coupon-container">
+  <div class="header">
+    <div class="header-title">
+      <h4>Scanned history</h4>
+    </div>
+    <h4>{{ coupons.length }} coupons</h4>
+  </div>
+
+  <!-- Coupon List Section -->
+  <div class="coupon-list">
+    <div *ngIf="coupons.length > 0; else noCoupons" class="coupons">
+      <div *ngFor="let use of coupons" class="coupon-item">
+        <div class="coupon-item-body">
+          <div class="coupon-header">
+            <img
+              *ngIf="use.image"
+              [src]="baseUrl + use.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+
+          <div class="coupon-details">
+            <div class="coupon-detail-row">
+              <strong>{{ use.packageName }}</strong>
+            </div>
+
+            <div class="coupon-detail-row">
+              <span>Used Date:</span>
+              <strong>{{ use.used_date | date : "medium" }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noCoupons>
+      <p>No coupons available.</p>
+    </ng-template>
+  </div>
+</div>

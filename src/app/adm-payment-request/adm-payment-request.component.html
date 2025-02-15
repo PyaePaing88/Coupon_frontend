@@ -1,0 +1,293 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="head">
+      <h3>Purchase Requests</h3>
+      <div style="display: flex; gap: 10px">
+        <button class="filter-button" (click)="exportTableToPDF()">
+          <i class="fi fi-rr-file-export"></i>
+          <p>Expport</p>
+        </button>
+        <button class="filter-button" (click)="showFilters = !showFilters">
+          <i class="fi fi-rr-filter"></i>
+          <p>{{ showFilters ? "Hide Filters" : "Show Filters" }}</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-section" [class.show]="showFilters" *ngIf="showFilters">
+      <!-- Username Filter -->
+      <div class="form-group">
+        <input
+          id="username"
+          type="text"
+          placeholder="Enter username"
+          [(ngModel)]="filters.username"
+          (input)="applyFilters()"
+        />
+      </div>
+
+      <!-- Status Filter -->
+      <div class="form-group">
+        <select
+          id="status"
+          [(ngModel)]="filters.status"
+          (change)="applyFilters()"
+        >
+          <option value="">All Status</option>
+          <option value="PENDING">Pending</option>
+          <option value="CONFIRM">Confirm</option>
+          <option value="DECLINED">Declined</option>
+        </select>
+      </div>
+
+      <!-- Payment Type Filter -->
+      <div class="form-group">
+        <select
+          id="paymentType"
+          [(ngModel)]="filters.paymentType"
+          (change)="applyFilters()"
+        >
+          <option value="">All Payment Types</option>
+          <option
+            *ngFor="let method of paymentMethods"
+            [value]="method.paymentType"
+          >
+            {{ method.paymentType }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Request Date Filter -->
+      <div class="form-group">
+        <input
+          id="requestDate"
+          type="month"
+          [(ngModel)]="filters.requestDate"
+          (change)="applyFilters()"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+      <ng-container
+        *ngIf="
+          filteredPurchases && filteredPurchases.length > 0;
+          else noDataTemplate
+        "
+      >
+        <table class="request-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Qty</th>
+              <th>Type</th>
+              <th>Transaction ID</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let purchase of filteredPurchases; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <img
+                  *ngIf="purchase.user_photo"
+                  [src]="
+                    purchase.user_photo.startsWith('users_images')
+                      ? baseUrl + purchase.user_photo
+                      : purchase.user_photo || 'assets/default-user-photo.png'
+                  "
+                  alt="User Photo"
+                  class="user-photo"
+                />
+              </td>
+              <td>{{ purchase.user_name }}</td>
+              <td>
+                <span
+                  *ngIf="purchase.confirm === 'PENDING'"
+                  class="status-badge PENDING"
+                  >Pending</span
+                >
+                <span
+                  *ngIf="purchase.confirm === 'CONFIRM'"
+                  class="status-badge CONFIRM"
+                  >Confirmed</span
+                >
+                <span
+                  *ngIf="purchase.confirm === 'DECLINED'"
+                  class="status-badge DECLINED"
+                  >Declined</span
+                >
+              </td>
+              <td>{{ purchase.total_amount }} MMK</td>
+              <td>{{ purchase.total_quantity }}</td>
+              <td>{{ purchase.payment_type }}</td>
+              <td>{{ purchase.transaction_id }}</td>
+              <td>{{ purchase.purchase_date | date : "medium" }}</td>
+              <td>
+                <div class="action">
+                  <button
+                    class="actions-button accept"
+                    *ngIf="purchase.confirm === 'PENDING'"
+                    (click)="onAccept(purchase.id)"
+                  >
+                    <i class="fa-solid fa-check"></i>
+                    <span class="tooltip">Accept</span>
+                  </button>
+                  <button
+                    class="actions-button decline"
+                    *ngIf="purchase.confirm === 'PENDING'"
+                    (click)="onDecline(purchase.id)"
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                    <span class="tooltip">Declined</span>
+                  </button>
+                  <button
+                    class="actions-button details"
+                    (click)="openCouponModal(purchase)"
+                  >
+                    <i class="fa-regular fa-eye"></i>
+                    <span class="tooltip">Details</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <ng-template #noDataTemplate>
+        <p class="no-data-message">No requests found.</p>
+      </ng-template>
+    </div>
+  </main>
+</div>
+
+<!-- Modal for showing coupon list and selected payment details -->
+<div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h4>Payment Details</h4>
+    <div *ngIf="selectedPayment">
+      <div class="payment-row">
+        <span class="payment-label">Date:</span>
+        <span class="payment-value">{{
+          selectedPayment.purchase_date | date : "medium"
+        }}</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">Amount:</span>
+        <span class="payment-value"
+          >{{ selectedPayment.total_amount.toFixed(2) }} MMK</span
+        >
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">Quantity:</span>
+        <span class="payment-value">{{ selectedPayment.total_quantity }}</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">Method:</span>
+        <span class="payment-value">{{ selectedPayment.payment_type }}</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">TransactionId:</span>
+        <span class="payment-value">{{ selectedPayment.transaction_id }}</span>
+      </div>
+    </div>
+
+    <h3>Coupons for Purchase</h3>
+    <div *ngIf="coupons.length > 0" class="coupon-rows">
+      <div class="coupon-row" *ngFor="let coupon of coupons">
+        <div class="coupon-image-container">
+          <img
+            *ngIf="coupon.image"
+            [src]="baseUrl + coupon.image"
+            alt="Coupon Image"
+            class="coupon-image"
+          />
+        </div>
+        <div class="coupon-details">
+          <h4>{{ coupon.packageName }}</h4>
+          <p>Expires on: {{ coupon.expired_date | date : "medium" }}</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="coupons.length === 0" class="no-data">
+      No coupons available for this purchase.
+    </div>
+
+    <button class="close-button" (click)="closeModal()">Close</button>
+  </div>
+</div>
+
+<div class="report-section">
+  <ng-container
+    *ngIf="
+      filteredPurchases && filteredPurchases.length > 0;
+      else noDataTemplate
+    "
+  >
+    <h2>Payment report</h2>
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Amount</th>
+          <th>Qty</th>
+          <th>Type</th>
+          <th>Transaction ID</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let purchase of filteredPurchases; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ purchase.user_name }}</td>
+          <td>{{ purchase.total_amount }} MMK</td>
+          <td>{{ purchase.total_quantity }}</td>
+          <td>{{ purchase.payment_type }}</td>
+          <td>{{ purchase.transaction_id }}</td>
+          <td>{{ purchase.purchase_date | date : "medium" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+  <ng-template #noDataTemplate>
+    <p class="no-data-message">No requests found.</p>
+  </ng-template>
+</div>

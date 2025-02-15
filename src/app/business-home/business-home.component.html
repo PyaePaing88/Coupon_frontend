@@ -1,0 +1,333 @@
+<app-business-navigation></app-business-navigation>
+<section class="dashboard-container">
+  <div class="Quantity">
+    <div class="Quantity-card" (click)="toggleModal()">
+      <div>
+        <h6>Total Reviews</h6>
+        <p *ngIf="totalReviwes !== null">{{ totalReviwes }}</p>
+      </div>
+      <i class="fi fi-rr-users-alt"></i>
+    </div>
+    <div class="Quantity-card" (click)="scrollToPackages()">
+      <div>
+        <h6>Total Packages</h6>
+        <p *ngIf="totalPackages !== null">{{ totalPackages }}</p>
+      </div>
+      <i class="fi fi-rr-box-alt"></i>
+    </div>
+
+    <div class="Quantity-card" (click)="navigateToBusinessSale(businessId)">
+      <div>
+        <h6>Total Coupon Sales</h6>
+        <p>{{ totalCouponSales }}</p>
+      </div>
+      <i class="fi fi-rr-chart-histogram"></i>
+    </div>
+  </div>
+  <div class="business-container">
+    <div class="business">
+      <img
+        [src]="baseUrl + businessBanner"
+        alt="Business Banner"
+        class="banner-img"
+      />
+      <div class="info-container">
+        <h2>{{ businessName }}</h2>
+
+        <!-- Business Categories -->
+        <div *ngIf="businessCategories?.length" class="categories-container">
+          <p *ngFor="let category of businessCategories" class="category-item">
+            {{ category }}
+          </p>
+        </div>
+
+        <!-- Business Contact Information -->
+        <div class="business-contact">
+          <div class="info">
+            <i class="fi fi-rr-phone-call"></i>
+            <p>{{ businessPhone }}</p>
+          </div>
+          <div class="info">
+            <i class="fi fi-rr-at"></i>
+            <p>{{ businessEmail }}</p>
+          </div>
+          <div class="info">
+            <i class="fi fi-rr-region-pin-alt"></i>
+            <p>{{ businessAddress }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="business-action">
+      <button
+        class="business-actions-btn"
+        alt="View Profile"
+        [routerLink]="['/scanner', businessId]"
+      >
+        <i class="fi fi-rr-qr-scan"></i>
+        <span class="tooltip">Scanner</span>
+      </button>
+
+      <button
+      class="business-actions-btn"
+      alt="Add-package"
+      [routerLink]="['/Package/create', businessId]"
+      [disabled]="isAddPackageButtonDisabled()"
+      [ngClass]="{ 'disabled-btn': isAddPackageButtonDisabled() }"
+    >
+      <i class="fi fi-rr-square-plus" [ngClass]="{ 'disabled-icon': isAddPackageButtonDisabled() }"></i>
+      <span class="tooltip">
+        {{ isAddPackageButtonDisabled() ? 'Limit Reached' : 'Add Package' }}
+      </span>
+    </button>
+    
+      <button
+        class="business-actions-btn"
+        [routerLink]="['/Business/edit', businessId]"
+      >
+        <i class="fi fi-rr-edit"></i>
+        <span class="tooltip">Edit</span>
+      </button>
+
+      <button
+        class="business-actions-btn"
+        (click)="toggleModal()"
+        alt="Feedback"
+      >
+        <i class="fi fi-rr-comment-alt-dots"></i>
+        <span class="tooltip">Review</span>
+      </button>
+    </div>
+  </div>
+  <div class="business-container">
+    <div class="chart">
+      <div class="bar-chart-container">
+        <h3>Coupon Sales Over Time</h3>
+        <div class="date-picker-container">
+          <div>
+            <input
+              type="date"
+              id="startDate"
+              [(ngModel)]="startDate"
+              (change)="onDateChange()"
+            />
+          </div>
+          <p>to</p>
+          <div>
+            <input
+              type="date"
+              id="endDate"
+              [(ngModel)]="endDate"
+              (change)="onDateChange()"
+            />
+          </div>
+        </div>
+
+        <ngx-charts-bar-vertical
+          [view]="view"
+          [results]="chartData"
+          [xAxis]="false"
+          [yAxis]="true"
+          [showXAxisLabel]="true"
+          [xAxisLabel]="'Date'"
+          [showYAxisLabel]="true"
+          [yAxisLabel]="'Sales Count'"
+          [yAxisTickFormatting]="customYAxisTickFormatting"
+          [yScaleMax]="10"
+          [yScaleMin]="0"
+        >
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+    <div class="review">
+      <!-- Average Rating Section -->
+      <div class="rating-container">
+        <!-- Average Rating Section -->
+        <div class="average-rating-section">
+          <h3 class="average-rating">
+            {{ averageRating | number : "1.1-1" }}
+            <span class="out-of">/ 5</span>
+          </h3>
+          <div class="star-rating">
+            <span
+              *ngFor="let star of stars; let i = index"
+              [ngClass]="{
+                filled: averageRating > i,
+                empty: averageRating <= i
+              }"
+              class="star"
+              >&#9733;</span
+            >
+          </div>
+          <p class="total-ratings">{{ totalRatings }} ratings</p>
+        </div>
+
+        <!-- Rating Breakdown Section -->
+        <div class="rating-breakdown">
+          <div
+            *ngFor="let breakdown of ratingBreakdown"
+            class="rating-breakdown-row"
+          >
+            <span class="rating-stars">{{ breakdown.rating }} ★</span>
+            <div class="progress-bar-container">
+              <div class="progress-bar">
+                <div
+                  class="progress"
+                  [style.width]="(breakdown.count / totalRatings) * 100 + '%'"
+                ></div>
+              </div>
+            </div>
+            <span class="rating-count">{{ breakdown.count }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="show-review">
+        <a (click)="toggleModal()">Show Reviews</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cards List Section -->
+  <div #packagesSection class="packages-container">
+    <h2>Packages List</h2>
+    <div class="cards-list">
+      <div
+        class="card"
+        *ngFor="let package of packages"
+        (click)="openBuyNowPopup(package)"
+      >
+        <!-- Expired Label -->
+        <p *ngIf="isExpired(package.expired_date)" class="expired-label">
+          Expired
+        </p>
+
+        <p
+          *ngIf="!isExpired(package.expired_date) && package.quantity === 0"
+          class="sold-out"
+        >
+          Sold out
+        </p>
+
+        <img
+          [src]="baseUrl + package.image"
+          alt="{{ package.name }}"
+          class="card-img"
+        />
+        <div class="card-content">
+          <h3>{{ package.name }}</h3>
+          <p>{{ package.unit_price }} MMK</p>
+          <p>{{ package.expired_date | date : "short" }}</p>
+        </div>
+      </div>
+      <div *ngIf="packages.length === 0">No packages available</div>
+    </div>
+  </div>
+</section>
+
+<!--Popup Modal -->
+<div id="PopupModal" [class.hidden]="!isPopupVisible" class="popup">
+  <div class="popup-content">
+    <span (click)="closeBuyNowPopup()" class="close">&times;</span>
+    <div class="popup-body">
+      <img
+        *ngIf="selectedPackage?.image"
+        [src]="baseUrl + selectedPackage.image"
+        alt="{{ selectedPackage.name }}"
+        class="popup-image"
+      />
+      <div class="popup-info">
+        <h3>{{ selectedPackage?.name }}</h3>
+        <p style="display: none">{{ selectedPackage?.id }}</p>
+        <div class="package-info">
+          <label>Price:</label>
+          <p>{{ selectedPackage?.unit_price }} MMK</p>
+        </div>
+
+        <div class="package-info">
+          <label>Expired date:</label>
+          <p>{{ selectedPackage?.expired_date | date : "medium" }}</p>
+        </div>
+
+        <div class="package-info">
+          <label>Available Quantity:</label>
+          <p>{{ selectedPackage?.quantity }}</p>
+        </div>
+
+        <div class="package-info">
+          <label>SaleCoupom Quantity:</label>
+          <p>{{ SaleCouponCount }}</p>
+          <!-- Display SaleCouponCount here -->
+        </div>
+
+        <div class="package-info">
+          <button
+            [routerLink]="['/edit-package', selectedPackage?.id]"
+            class="edit"
+          >
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="description">
+      <label><strong>Description:</strong></label>
+      <p>{{ selectedPackage?.description }}</p>
+    </div>
+  </div>
+</div>
+
+<div
+  class="review-modal"
+  [ngClass]="{ 'modal-visible': isModalVisible }"
+  (click)="toggleModal()"
+>
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Reviews</h3>
+      <button class="close-button" (click)="toggleModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="reviews && reviews.length > 0; else noReviews">
+        <div class="reviews-list-container">
+          <div *ngFor="let review of reviews" class="review-card">
+            <div class="review-header">
+              <div class="user-info">
+                <img
+                  *ngIf="review.user_photo"
+                  [src]="
+                    review.user_photo.startsWith('users_images')
+                      ? baseUrl + review.user_photo
+                      : review.user_photo || 'assets/default-user-photo.png'
+                  "
+                  alt="User Photo"
+                  class="user-photo"
+                />
+                <p class="user-name">{{ review.user_name }}</p>
+              </div>
+              <span class="review-date">
+                {{ review.review_date | date : "short" }}
+              </span>
+            </div>
+            <div class="review-rating">
+              <span
+                *ngFor="
+                  let star of [].constructor(review.rating);
+                  let i = index
+                "
+                class="list-star"
+                >&#9733;</span
+              >
+            </div>
+            <p class="review-message">{{ review.message }}</p>
+          </div>
+        </div>
+      </div>
+      <!-- Fallback content for no reviews -->
+      <ng-template #noReviews>
+        <div class="no-reviews">
+          <p>No reviews available.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

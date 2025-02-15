@@ -1,0 +1,256 @@
+<app-navigation></app-navigation>
+
+<div class="banner">
+  <img
+    [src]="baseUrl + businessBanner"
+    alt="Business Banner"
+    class="banner-img"
+  />
+  <div class="banner-overlay">
+    <h1>{{ businessName }}</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="info-container">
+    <h2>{{ businessName }}</h2>
+    <!-- Business Categories -->
+    <div *ngIf="businessCategories?.length" class="categories-container">
+      <p *ngFor="let category of businessCategories" class="category-item">
+        {{ category }}
+      </p>
+    </div>
+
+    <!-- Business Contact Information -->
+    <div class="business-contact">
+      <div class="info">
+        <i class="fi fi-rr-phone-call"></i>
+        <p>{{ businessPhone }}</p>
+      </div>
+      <div class="info">
+        <i class="fi fi-rr-at"></i>
+        <p>{{ businessEmail }}</p>
+      </div>
+      <div class="info">
+        <i class="fi fi-rr-region-pin-alt"></i>
+        <p>{{ businessAddress }}</p>
+      </div>
+    </div>
+  </div>
+  <!-- Average Rating Section -->
+  <div class="rating-container">
+    <!-- Average Rating Section -->
+    <div class="average-rating-section">
+      <h3 class="average-rating">
+        {{ averageRating | number : "1.1-1" }} <span class="out-of">/ 5</span>
+      </h3>
+      <div class="star-rating">
+        <span
+          *ngFor="let star of stars; let i = index"
+          [ngClass]="{
+            filled: averageRating > i,
+            empty: averageRating <= i
+          }"
+          class="star"
+          >&#9733;</span
+        >
+      </div>
+      <p class="total-ratings">{{ totalRatings }} ratings</p>
+    </div>
+
+    <!-- Rating Breakdown Section -->
+    <div class="rating-breakdown">
+      <div
+        *ngFor="let breakdown of ratingBreakdown"
+        class="rating-breakdown-row"
+      >
+        <span class="rating-stars">{{ breakdown.rating }} ★</span>
+        <div class="progress-bar-container">
+          <div class="progress-bar">
+            <div
+              class="progress"
+              [style.width]="(breakdown.count / totalRatings) * 100 + '%'"
+            ></div>
+          </div>
+        </div>
+        <span class="rating-count">{{ breakdown.count }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <nav>
+    <ul class="tab-links">
+      <li
+        *ngFor="let tab of tabs; let i = index"
+        [class.active]="selectedTab === i"
+        (click)="selectTab(i)"
+      >
+        {{ tab.label }}
+      </li>
+    </ul>
+  </nav>
+
+  <div class="tab-content">
+    <div *ngIf="selectedTab === 0">
+      <div
+        class="package-container"
+        *ngIf="packages && packages.length > 0; else noPackages"
+      >
+        <div *ngFor="let pkg of packages" class="package-item">
+          <!-- Sold Out Message for Packages with Zero Quantity -->
+          <p *ngIf="pkg.quantity === 0" class="sold-out">Sold Out</p>
+
+          <img
+            [src]="baseUrl + pkg.image"
+            alt="{{ pkg.name }}"
+            class="package-img"
+          />
+          <div class="package-info">
+            <h3 class="package-name">{{ pkg.name }}</h3>
+            <p class="package-qty">Quantity: {{ pkg.quantity }}</p>
+            <p class="package-price">Price: {{ pkg.unit_price }} MMK</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noPackages>
+        <p>No packages available for this business.</p>
+      </ng-template>
+    </div>
+
+    <div *ngIf="selectedTab === 1">
+      <div *ngIf="businessServices?.length">
+        <h3>Services</h3>
+        <ul>
+          <li *ngFor="let service of businessServices">{{ service }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="selectedTab === 2">
+      <div *ngIf="businessLatitude || businessLongitude || businessAddress">
+        <h3>Location</h3>
+        <app-show-location [latitude]="parseLat" [longitude]="parseLog"></app-show-location>
+      </div>
+    </div>
+
+    <div *ngIf="selectedTab === 3">
+      <!-- Average Rating Display -->
+
+      <!-- Toggle Reviews Section -->
+      <div class="reviews-toggle-container">
+        <a (click)="toggleReviews()" class="toggle-reviews-link">
+          {{ reviewsVisible ? "Hide Reviews" : "See Reviews" }}
+        </a>
+      </div>
+
+      <!-- Reviews List Section -->
+      <div
+        class="reviews-list-container"
+        *ngIf="reviewsVisible && reviews && reviews.length > 0; else noReviews"
+      >
+        <div *ngFor="let review of reviews" class="review-card">
+          <div class="review-header">
+            <div class="user-info">
+              <img
+                *ngIf="review.user_photo"
+                [src]="baseUrl + review.user_photo"
+                alt="User Photo"
+                class="user-photo"
+              />
+              <p class="user-name">{{ review.user_name }}</p>
+            </div>
+            <span class="review-date">{{
+              review.review_date | date : "medium"
+            }}</span>
+          </div>
+
+          <div class="review-rating">
+            <span
+              *ngFor="let star of [].constructor(review.rating); let i = index"
+              class="list-star"
+              >&#9733;</span
+            >
+          </div>
+
+          <div class="review-content">
+            <p class="review-message">{{ review.message }}</p>
+
+            <div class="review-actions">
+              <button
+                (click)="handleAction(review, 'LIKE')"
+                [disabled]="review.action === 'LIKE'"
+                class="like-button"
+              >
+                <i
+                  class="fi"
+                  [ngClass]="
+                    review.action === 'LIKE'
+                      ? 'fi-sr-thumbs-up'
+                      : 'fi-rr-social-network'
+                  "
+                ></i>
+              </button>
+
+              <button
+                (click)="handleAction(review, 'DISLIKE')"
+                [disabled]="review.action === 'DISLIKE'"
+                class="dislike-button"
+              >
+                <i
+                  class="fi"
+                  [ngClass]="
+                    review.action === 'DISLIKE'
+                      ? 'fi-sr-thumbs-down'
+                      : 'fi-rr-hand'
+                  "
+                ></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Reviews Available Template -->
+      <ng-template #noReviews>
+        <p *ngIf="reviewsVisible">No reviews available.</p>
+      </ng-template>
+
+      <!-- Review Form Section -->
+      <div class="review-form-container">
+        <form (ngSubmit)="submitReview()">
+          <div class="form-group">
+            <label for="rating">Rating:</label>
+            <div class="rating-star">
+              <span
+                *ngFor="let star of stars; let i = index"
+                (click)="setRating(i + 1)"
+                [ngClass]="{
+                  filled: review.rating > i,
+                  empty: review.rating <= i
+                }"
+                class="star"
+                >&#9733;</span
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea
+              [(ngModel)]="review.message"
+              name="message"
+              class="messagebox"
+              id="message"
+              rows="1"
+              required
+            ></textarea>
+            <button type="submit" class="submit">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,135 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="list-header">
+      <h4>Payment Methods</h4>
+      <button class="open-modal-button" (click)="openModal()">Add</button>
+    </div>
+
+    <div class="card-container">
+      <div class="payment-card" *ngFor="let method of paymentMethods">
+        <div class="card-body">
+          <img [src]="bsseUrl + method.image" alt="QR Code" class="qr-image" />
+          <h4>{{ method.paymentType }}</h4>
+        </div>
+        <div class="card-footer">
+          <button class="btn-edit" (click)="editPaymentMethod(method.id)">
+            <i class="fi fi-rr-pen-square"></i>
+          </button>
+          <button class="btn-delete" (click)="deletePaymentMethod(method.id)">
+            <i class="fi fi-rr-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!------create payment method modal------->
+<div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeModal()">×</button>
+    <div class="payment-method-container">
+      <h2>Create Payment Method</h2>
+      <form (ngSubmit)="submitPaymentMethod()">
+        <div class="form-group image-upload-group">
+          <div class="image-upload-container">
+            <div class="image-preview-box">
+              <img
+                [src]="imagePreview || 'assets/image/logo/picture.png'"
+                alt="QR Code Preview"
+                class="image-preview"
+              />
+            </div>
+            <label for="image-upload" class="upload-label">Browse</label>
+            <input
+              type="file"
+              id="image-upload"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="lbl" for="name">Payment Method Name:</label>
+          <input
+            type="text"
+            id="name"
+            [(ngModel)]="paymentMethodDTO.paymentType"
+            name="name"
+            placeholder="Enter payment method name"
+            required
+          />
+        </div>
+        <button type="submit" class="btn-submit">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!------edit payment method modal------->
+<div
+  *ngIf="isEditing && selectedPaymentMethod"
+  class="modal-overlay"
+  (click)="cancelEdit()"
+>
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="cancelEdit()">×</button>
+    <div class="payment-method-container">
+      <h2>Edit Payment Method</h2>
+      <form (ngSubmit)="updatePaymentMethod()">
+        <div class="form-group image-upload-group">
+          <div class="image-upload-container">
+            <div class="image-preview-box">
+              <img
+                [src]="bsseUrl + selectedPaymentMethod.image"
+                alt="QR Code Preview"
+                class="image-preview"
+              />
+            </div>
+            <label for="edit-image-upload" class="upload-label">Browse</label>
+            <input
+              type="file"
+              id="edit-image-upload"
+              (change)="onEditFileSelected($event)"
+              accept="image/*"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="lbl" for="edit-name">Payment Method Name:</label>
+          <input
+            type="text"
+            id="edit-name"
+            [(ngModel)]="selectedPaymentMethod.paymentType"
+            name="editName"
+            placeholder="Enter payment method name"
+            required
+          />
+        </div>
+        <button type="submit" class="btn-submit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>

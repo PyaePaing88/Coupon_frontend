@@ -1,0 +1,93 @@
+<div class="header">
+  <a [routerLink]="'/business-home'" aria-label="Go back to admin home">
+    <i class="fa-solid fa-arrow-left"></i>
+  </a>
+  <a [routerLink]="'/business-home'" aria-label="Go to home">
+    <img [src]="'assets/image/logo/logo.png'" class="logo" alt="Coupon Logo" />
+    Coupon
+  </a>
+  <a (click)="openModel()"><i class="fi fi-rr-triangle-warning"></i></a>
+</div>
+
+<div class="qr-scanner">
+  <!-- Scanning Section -->
+  <div class="scanner-container" *ngIf="isScanning">
+    <video #video id="video" autoplay></video>
+    <div class="scanner-overlay">
+      <div class="scanner-box">
+        <div class="scanning-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scanning Result Section -->
+  <div *ngIf="!isScanning && scannedResult" class="result-container">
+    <div *ngIf="coupon" class="coupon-details">
+      <div class="info-container">
+        <img
+          [src]="baseUrl + coupon.image"
+          class="coupon-image"
+          alt="Package Image"
+        />
+        <div class="coupon-info">
+          <h2>{{ coupon.packageName }}</h2>
+
+          <div class="info">
+            <label>Purchase Date:</label>
+            <p>{{ coupon.purchase_date | date : "short" }}</p>
+          </div>
+          <div class="info">
+            <label>Expired Date:</label>
+            <p>{{ coupon.expired_date | date : "short" }}</p>
+          </div>
+          <div class="info">
+            <label>Price:</label>
+            <p>{{ coupon.unit_price }} MMK</p>
+          </div>
+          <div class="info">
+            <label>Owner:</label>
+            <p>{{ coupon.owner }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <label>Description:</label>
+        <p>{{ coupon.description }}</p>
+      </div>
+    </div>
+    <button class="reload-link">Scan Again</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-container">
+    <div class="error-text">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Fallback for Camera Access -->
+  <div
+    *ngIf="!isScanning && !scannedResult && !errorMessage"
+    class="no-camera-container"
+  >
+    <p class="no-camera-text">
+      Camera access is required to scan QR codes. Please enable permissions and
+      refresh the page.
+    </p>
+  </div>
+</div>
+
+<!-- input qrcode -->
+<div *ngIf="isModalOpen" class="search-modal">
+  <div class="search-modal-content">
+    <span (click)="closeModal()" class="search-close-btn">&times;</span>
+    <h3>Search Coupon</h3>
+    <div class="search-input-container">
+      <input
+        id="scannedResult"
+        [(ngModel)]="scannedResult"
+        class="search-input"
+      />
+      <button (click)="searchCoupon()" class="search-btn">Check</button>
+    </div>
+  </div>
+</div>

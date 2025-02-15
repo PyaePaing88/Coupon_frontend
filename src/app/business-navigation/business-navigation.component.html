@@ -1,0 +1,124 @@
+<nav class="navbar">
+  <!-- Mobile Menu Toggle -->
+  <div class="hamburger">
+    <label class="mobile-menu-toggle">
+      <input type="checkbox" [(ngModel)]="mobileMenuOpen" />
+      <svg viewBox="0 0 32 32">
+        <path
+          class="line line-top-bottom"
+          d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+        ></path>
+        <path class="line" d="M7 16 27 16"></path>
+      </svg>
+    </label>
+
+    <!-- Logo Section -->
+    <div class="navbar-logo">
+      <a href="/home"
+        ><img [src]="'assets/image/logo/logo.png'" class="logo" />Coupon</a
+      >
+    </div>
+  </div>
+
+  <!-- Navigation Links (Desktop Only) -->
+  <div class="navbar-links desktop">
+    <a routerLink="/business-home" routerLinkActive="active">Home</a>
+    <a [routerLink]="['/business-sale', businessId]" routerLinkActive="active"
+      >Sale</a
+    >
+    <a [routerLink]="['/cash-in', businessId]" routerLinkActive="active"
+      >Cash in</a
+    >
+    <a [routerLink]="['/scan-history', businessId]" routerLinkActive="active"
+      >Scan history</a
+    >
+    <a routerLink="/business-about" routerLinkActive="active">About</a>
+    <a routerLink="/business-contact" routerLinkActive="active">Contact Us</a>
+    <a [routerLink]="['/pricing', businessId]" routerLinkActive="active"
+      >Pricing</a
+    >
+  </div>
+
+  <!-- Actions Section -->
+  <div class="navbar-actions">
+    <a class="icon" (click)="toggleNotification()">
+      <i class="fi fi-rr-bell-ring"></i>
+      <span *ngIf="unreadCount > 0" class="badge">{{ unreadCount }}</span>
+    </a>
+    <div (click)="togglePopup()" class="profile">
+      <img
+        [src]="
+          profileImage?.startsWith('users_images')
+            ? baseUrl + profileImage
+            : profileImage
+        "
+      />
+    </div>
+  </div>
+</nav>
+
+<!-- Sidebar (Mobile Only) -->
+<div class="mobile-sidebar" [class.open]="mobileMenuOpen">
+  <div class="mobile-links">
+    <a routerLink="/business-home" routerLinkActive="active"
+      ><i class="fi fi-rr-house-chimney"><p>Home</p></i></a
+    >
+    <a [routerLink]="['/business-sale', businessId]" routerLinkActive="active"
+      ><i class="fi fi-rr-chart-line-up"><p>Sale</p></i></a
+    >
+    <a [routerLink]="['/cash-in', businessId]" routerLinkActive="active"
+      ><i class="fi fi-rr-holding-hand-revenue"><p>Cash in</p></i></a
+    >
+    <a [routerLink]="['/scan-history', businessId]" routerLinkActive="active"
+      ><i class="fi fi-rr-time-past"><p>Scan history</p></i></a
+    >
+    <a routerLink="/business-about" routerLinkActive="active"
+      ><i class="fi fi-rr-info"><p>About</p></i></a
+    >
+    <a routerLink="/business-contact" routerLinkActive="active"
+      ><i class="fi fi-rr-user-headset"><p>Contact Us</p></i></a
+    >
+    <a [routerLink]="['/pricing', businessId]" routerLinkActive="active"
+      ><i class="fi fi-rr-crown"><p>Pricing</p></i></a
+    >
+  </div>
+</div>
+
+<div class="profile-container" *ngIf="showPopup">
+  <div class="profile-popup">
+    <button class="close-btn" (click)="togglePopup()">
+      <i class="fi fi-rr-angle-small-up"></i>
+    </button>
+    <div class="profile-header">
+      <img
+        [src]="
+          profileImage?.startsWith('users_images')
+            ? baseUrl + profileImage
+            : profileImage
+        "
+        alt="Profile Picture"
+        class="profile-image"
+      />
+      <h3>{{ userName }}</h3>
+      <p>{{ userEmail }}</p>
+    </div>
+    <div class="my-action">
+      <a [routerLink]="['/business-profile', userId]">
+        <i class="fi fi-rr-portrait">
+          <p>View Profile</p>
+        </i>
+      </a>
+      <a (click)="logout()"
+        ><i class="fi fi-rr-exit"><p>Logout</p></i></a
+      >
+    </div>
+  </div>
+</div>
+
+<div class="noti-model" [ngClass]="{ show: isNotificationOpen }">
+  <div class="noti-head">
+    <h4>Notification</h4>
+    <a (click)="toggleNotification()"><i class="fa-solid fa-xmark"></i></a>
+  </div>
+  <app-notification *ngIf="isNotificationOpen"></app-notification>
+</div>

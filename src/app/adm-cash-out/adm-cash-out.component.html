@@ -1,0 +1,143 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="page-header">
+      <h4>Cash Out</h4>
+      <a routerLink="/cash-out-history"><i class="fi fi-rr-time-past"></i></a>
+    </div>
+    <div class="container">
+      <div class="first-div">
+        <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+          <div>
+            <label for="select-box">Choose business:</label>
+            <select id="select-box" formControlName="selectedBusiness">
+              <option *ngFor="let business of businesses" [value]="business.id">
+                {{ business.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="date-picker">
+            <label for="date-picker1">From:</label>
+            <input type="date" id="date-picker1" formControlName="fromDate" />
+
+            <label for="date-picker2">To:</label>
+            <input type="date" id="date-picker2" formControlName="toDate" />
+          </div>
+
+          <div class="action-buttons">
+            <button
+              id="action-button"
+              type="submit"
+              [disabled]="filterForm.invalid"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="second-div">
+        <div class="input-fields">
+          <!-- Input for Quantity -->
+          <div class="input-group">
+            <label for="qty">Total Quantity:</label>
+            <input type="number" id="qty" [value]="totalQuantity" readonly />
+          </div>
+
+          <!-- Input for Total Unit Price -->
+          <div class="input-group">
+            <label for="total">Total Unit Price:</label>
+            <input type="number" id="total" [value]="totalUnitPrice" readonly />
+          </div>
+        </div>
+
+        <div class="percentage">
+          <label for="percentage-range">Percentage:</label>
+          <input
+            type="range"
+            id="percentage-range"
+            min="0"
+            max="100"
+            [(ngModel)]="percentage"
+            (input)="calculateTotalCashOut()"
+          />
+          <span>{{ percentage }}%</span>
+        </div>
+        <div class="action-buttons2">
+          <div class="input-group2">
+            <label for="qty">Total Cash out:</label>
+            <input
+              type="number"
+              id="cash-out"
+              [value]="totalCashOut"
+              readonly
+            />
+          </div>
+          <button id="action-button" (click)="cashOut()">Cash out</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-message">Loading...</div>
+
+    <div *ngIf="!isLoading && coupons.length === 0" class="no-income-message">
+      <p>No income for this business.</p>
+    </div>
+
+    <div *ngIf="!isLoading && coupons.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Image</th>
+            <th>Package Name</th>
+            <th>Expired Date</th>
+            <th>Unit Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let coupon of coupons; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <img
+                [src]="baseUrl + coupon.image"
+                alt="Coupon Image"
+                width="100"
+              />
+            </td>
+            <td>{{ coupon.packageName }}</td>
+            <td>{{ coupon.expired_date | date : "medium" }}</td>
+            <td>{{ coupon.unit_price }} MMK</td>
+            <td>{{ coupon.paid_status ? "Not Paid" : "Paid" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noCoupons>
+      <p>No coupons available for the selected date range.</p>
+    </ng-template>
+  </main>
+</div>

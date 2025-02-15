@@ -1,0 +1,219 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="business-details">
+      <div class="business">
+        <img
+          [src]="baseUrl + businessBanner"
+          alt="Business Banner"
+          class="banner-img"
+        />
+        <div class="info-container">
+          <div class="business-name">
+            <h2>{{ businessName }}</h2>
+          </div>
+          <!-- Business Categories -->
+          <div *ngIf="businessCategories?.length" class="categories-container">
+            <p
+              *ngFor="let category of businessCategories"
+              class="category-item"
+            >
+              {{ category }}
+            </p>
+          </div>
+
+          <!-- Business Contact Information -->
+          <div class="business-contact">
+            <div class="info">
+              <i class="fi fi-rr-phone-call"></i>
+              <p>{{ businessPhone }}</p>
+            </div>
+            <div class="info">
+              <i class="fi fi-rr-at"></i>
+              <p>{{ businessEmail }}</p>
+            </div>
+            <div class="info">
+              <i class="fi fi-rr-region-pin-alt"></i>
+              <p>{{ businessAddress }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs Section -->
+      <nav class="tabs">
+        <button
+          (click)="selectTab('packages')"
+          [class.active]="selectedTab === 'packages'"
+          class="tab-button"
+        >
+          Packages
+        </button>
+        <button
+          (click)="selectTab('reviews')"
+          [class.active]="selectedTab === 'reviews'"
+          class="tab-button"
+        >
+          Reviews
+        </button>
+      </nav>
+
+      <!-- Tab Content Section -->
+      <section class="tab-content">
+        <!-- Packages Tab -->
+        <div *ngIf="selectedTab === 'packages'" class="packages-container">
+          <div *ngFor="let package of packages" class="package">
+            <!-- Package Status (Expired/Sold Out) -->
+            <div class="status-labels">
+              <p *ngIf="isExpired(package.expired_date)" class="label expired">
+                Expired
+              </p>
+              <p *ngIf="package.quantity === 0" class="label sold-out">
+                Sold out
+              </p>
+            </div>
+
+            <!-- Package Image -->
+            <div class="package-image-container">
+              <img
+                [src]="baseUrl + package.image"
+                alt="{{ package.name }}"
+                class="package-image"
+              />
+            </div>
+
+            <!-- Package Details -->
+            <div class="package-info">
+              <h5>{{ package.name }}</h5>
+              <p class="package-date">
+                {{ package.expired_date | date : "medium" }}
+              </p>
+              <p>{{ package.quantity }} left</p>
+              <p class="package-price">{{ package.unit_price }} MMK</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div
+          *ngIf="selectedTab === 'reviews' && reviews.length > 0"
+          class="reviews"
+        >
+          <div class="review">
+            <div class="show-review">
+              <a (click)="toggleModal()">Show Reviews</a>
+            </div>
+            <!-- Average Rating Section -->
+            <div class="rating-container">
+              <!-- Average Rating Section -->
+              <div class="average-rating-section">
+                <h3 class="average-rating">
+                  {{ averageRating | number : "1.1-1" }}
+                  <span class="out-of">/ 5</span>
+                </h3>
+                <div class="star-rating">
+                  <span
+                    *ngFor="let star of stars; let i = index"
+                    [ngClass]="{
+                      filled: averageRating > i,
+                      empty: averageRating <= i
+                    }"
+                    class="star"
+                    >&#9733;</span
+                  >
+                </div>
+                <p class="total-ratings">{{ totalRatings }} ratings</p>
+              </div>
+
+              <!-- Rating Breakdown Section -->
+              <div class="rating-breakdown">
+                <div
+                  *ngFor="let breakdown of ratingBreakdown"
+                  class="rating-breakdown-row"
+                >
+                  <span class="rating-stars">{{ breakdown.rating }} ★</span>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar">
+                      <div
+                        class="progress"
+                        [style.width]="
+                          (breakdown.count / totalRatings) * 100 + '%'
+                        "
+                      ></div>
+                    </div>
+                  </div>
+                  <span class="rating-count">{{ breakdown.count }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div
+  class="modal"
+  [ngClass]="{ 'modal-visible': isModalVisible }"
+  (click)="toggleModal()"
+>
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Reviews</h3>
+      <button class="close-button" (click)="toggleModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="reviews-list-container">
+        <div *ngFor="let review of reviews" class="review-card">
+          <div class="review-header">
+            <div class="user-info">
+              <img
+                *ngIf="review.user_photo"
+                [src]="
+                  review.user_photo.startsWith('users_images')
+                    ? baseUrl + review.user_photo
+                    : review.user_photo || 'assets/default-user-photo.png'
+                "
+                alt="User Photo"
+                class="user-photo"
+              />
+              <p class="user-name">{{ review.user_name }}</p>
+            </div>
+            <span class="review-date">
+              {{ review.review_date | date : "medium" }}
+            </span>
+          </div>
+          <div class="review-rating">
+            <span
+              *ngFor="let star of [].constructor(review.rating); let i = index"
+              class="list-star"
+              >&#9733;</span
+            >
+          </div>
+          <p class="review-message">{{ review.message }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

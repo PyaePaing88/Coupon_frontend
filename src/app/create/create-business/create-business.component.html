@@ -1,0 +1,147 @@
+<form #Bform="ngForm" (ngSubmit)="onSubmit(Bform)" class="business-form">
+  <div class="form-header">
+    <h4>Create Business</h4>
+    <!-- Button Section -->
+    <div class="button-group">
+      <button class="submit-button" type="submit">Save</button>
+    </div>
+  </div>
+
+  <!-- Photo Upload Section -->
+  <div class="photo-upload-section">
+    <div class="image-preview-container">
+      <div class="image-preview-box">
+        <img
+          [src]="imagePreview || 'assets/image/logo/picture.png'"
+          alt="Image Preview"
+          class="image-preview"
+        />
+      </div>
+      <label for="image-upload" class="upload-label">Browse</label>
+      <input
+        id="image-upload"
+        type="file"
+        name="image"
+        (change)="onFileChange($event)"
+        required
+      />
+    </div>
+  </div>
+  <div class="form-group">
+    <!-- Info Section -->
+    <div class="info-section">
+      <h4>Business Information</h4>
+      <!-- <div class="input-group">
+        <label for="user-id">User ID</label>
+        <input
+          id="user-id"
+          [(ngModel)]="business.user_id"
+          name="user_id"
+          placeholder="Enter User ID"
+          type="text"
+          required
+        />
+      </div> -->
+      <div class="input-group">
+        <label for="business-name">Business Name</label>
+        <input
+          id="business-name"
+          [(ngModel)]="business.name"
+          name="name"
+          placeholder="Enter Business Name"
+          type="text"
+          required
+        />
+      </div>
+      <div class="input-group">
+        <label for="phone">Phone</label>
+        <input
+          id="phone"
+          [(ngModel)]="business.phone"
+          name="phone"
+          placeholder="Enter Phone Number"
+          type="text"
+          required
+        />
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          [(ngModel)]="business.email"
+          name="email"
+          placeholder="Enter Email"
+          type="text"
+          required
+        />
+      </div>
+      <!-- <div class="input-group">
+        <label for="latitude">Latitude</label>
+        <input
+          id="latitude"
+          [(ngModel)]="business.latitude"
+          name="latitude"
+          placeholder="Enter Latitude"
+          type="text"
+          required
+        />
+      </div> -->
+      <!-- <div class="input-group">
+        <label for="longitude">Longitude</label>
+        <input
+          id="longitude"
+          [(ngModel)]="business.longitude"
+          name="longitude"
+          placeholder="Enter Longitude"
+          type="text"
+          required
+        />
+      </div> -->
+      
+      <div class="input-group">
+        <label for="address">Address</label>
+        <input
+          id="address"
+          [(ngModel)]="business.address"
+          name="address"
+          placeholder="Enter Address"
+          type="text"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="categories-list">
+      <h4>Select Categories</h4>
+      <div class="checkbox-group">
+        <label *ngFor="let category of categories">
+          <input
+            type="checkbox"
+            [value]="category.id"
+            [attr.data-name]="category.name"
+            (change)="onCategoryChange($event)"
+          />
+          {{ category.name }}
+        </label>
+      </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="service-list">
+      <h4>Select Services</h4>
+      <div class="checkbox-group">
+        <label *ngFor="let service of services">
+          <input
+            type="checkbox"
+            [value]="service.id"
+            (change)="onServiceChange($event)"
+          />
+          {{ service.name }}
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div id="map" style="height: 400px;"></div>

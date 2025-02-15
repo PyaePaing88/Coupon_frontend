@@ -1,0 +1,80 @@
+<app-business-navigation></app-business-navigation>
+<div class="container">
+  <div class="page-header">
+    <h4>Cash In History</h4>
+    <input type="date" id="date-time-picker" (change)="onDateChange($event)" />
+  </div>
+
+  <div class="table-container">
+    <table class="revenue-table" *ngIf="filteredRevenues.length > 0">
+      <thead>
+        <tr>
+          <th>From Date</th>
+          <th>To Date</th>
+          <th>Total</th>
+          <th>(%)</th>
+          <th>Receive</th>
+          <th>Receive Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let revenue of filteredRevenues; let i = index">
+          <td>{{ revenue.fromDate | date : "medium" }}</td>
+          <td>{{ revenue.toDate | date : "medium" }}</td>
+          <td class="amount">{{ revenue.totalAmount }} MMK</td>
+          <td class="percentage">{{ revenue.percentage }}%</td>
+          <td class="amount">{{ revenue.payAmount }} MMK</td>
+          <td>{{ revenue.payDate | date : "medium" }}</td>
+          <td>
+            <button (click)="openModal(revenue.id)" class="view-button">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="filteredRevenues.length === 0" class="text-center">
+      No revenues available
+    </div>
+  </div>
+</div>
+
+<!-- Modal to Display Paid Coupons -->
+<div [ngClass]="{ modal: true, show: isModalOpen }" id="couponModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h4>Paid Coupons</h4>
+
+    <div *ngIf="groupedCoupons && groupedCoupons.length">
+      <table class="coupon-table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let coupon of groupedCoupons; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <img
+                [src]="baseUrl + coupon.packageImage"
+                alt="{{ coupon.packageName }}"
+                class="coupon-image"
+              />
+            </td>
+            <td>{{ coupon.packageName }}</td>
+            <td>{{ coupon.quantity }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!groupedCoupons || !groupedCoupons.length">
+      <p>No paid coupons available.</p>
+    </div>
+  </div>
+</div>

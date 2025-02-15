@@ -1,0 +1,55 @@
+<div class="sidebar" [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }">
+  <div class="sidebar-header">
+    <!-- Logo Section -->
+    <div class="sidebar-logo">
+      <a href="/adm-dashboard"
+        ><img [src]="'assets/image/logo/logo.png'" class="logo" />
+        <span>Coupon</span></a
+      >
+    </div>
+  </div>
+  <div class="sidebar-menu">
+    <ul>
+      <li>
+        <button routerLink="/adm-dashboard" routerLinkActive="active">
+          <i class="fi fi-rr-dashboard-monitor"><p>Dashboard</p></i>
+        </button>
+        <button routerLink="/adm-business" routerLinkActive="active">
+          <i class="fi fi-rr-briefcase"><p>Business</p></i>
+        </button>
+        <button routerLink="/adm-package" routerLinkActive="active">
+          <i class="fi fi-rr-box-circle-check"><p>Packages</p></i>
+        </button>
+        <button routerLink="/request" routerLinkActive="active">
+          <i class="fi fi-rr-code-pull-request"><p>Requests</p></i>
+          <span *ngIf="pendingCouponCount > 0" class="badge">{{
+            pendingCouponCount
+          }}</span>
+        </button>
+        <button routerLink="/adm-coupon" routerLinkActive="active">
+          <i class="fi fi-rr-ticket"><p>Sales</p></i>
+        </button>
+        <hr />
+        <button routerLink="/cash-out" routerLinkActive="active">
+          <i class="fi fi-rr-money-income"><p>Revenue</p></i>
+        </button>
+        <button routerLink="/adm-plan" routerLinkActive="active">
+          <i class="fi fi-rr-blueprint"><p>Plan</p></i>
+        </button>
+        <button routerLink="/payment-method" routerLinkActive="active">
+          <i class="fi fi-rr-expense"><p>Banking</p></i>
+        </button>
+
+        <button routerLink="/adm-user-list" routerLinkActive="active">
+          <i class="fi fi-rr-users-alt"><p>Users</p></i>
+        </button>
+        <button routerLink="/adm-feedback" routerLinkActive="active">
+          <i class="fi fi-rr-comment-alt-dots"><p>Feedback</p></i>
+        </button>
+        <button routerLink="/adm-delete-list" routerLinkActive="active">
+          <i class="fi fi-rr-recycle-bin"><p>Bin</p></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

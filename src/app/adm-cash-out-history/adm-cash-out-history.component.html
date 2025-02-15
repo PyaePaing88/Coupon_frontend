@@ -1,0 +1,194 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="head">
+      <h4>Cash Out History</h4>
+      <div style="display: flex; gap: 10px">
+        <button class="filter-button" (click)="exportTableToPDF()">
+          <i class="fi fi-rr-file-export"></i>
+          <p>Expport</p>
+        </button>
+        <button class="filter-button" (click)="showFilters = !showFilters">
+          <i class="fi fi-rr-filter"></i>
+          <p>{{ showFilters ? "Hide Filters" : "Show Filters" }}</p>
+        </button>
+        <a routerLink="/cash-out">
+          <i class="fi fi-rr-wallet-arrow"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="filter-section" [class.show]="showFilters" *ngIf="showFilters">
+      <div class="form-group">
+        <input
+          type="text"
+          id="search-box"
+          placeholder="Search by business name..."
+          (input)="onSearchChange($event)"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="date"
+          id="date-time-picker"
+          (change)="onDateChange($event)"
+        />
+      </div>
+    </div>
+
+    <table class="list">
+      <thead class="thead-dark">
+        <tr>
+          <th>No</th>
+          <th>Business Name</th>
+          <th>Total Amount</th>
+          <th>Pay Amount</th>
+          <th>(%)</th>
+          <th>Pay Date</th>
+          <th>From Date</th>
+          <th>To Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let revenue of filteredRevenues; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ revenue.businessName }}</td>
+          <td>{{ revenue.totalAmount }} MMK</td>
+          <td>{{ revenue.payAmount }} MMK</td>
+          <td class="percentage">{{ revenue.percentage }}%</td>
+          <td>{{ revenue.payDate | date : "medium" }}</td>
+          <td>{{ revenue.fromDate | date : "medium" }}</td>
+          <td>{{ revenue.toDate | date : "medium" }}</td>
+          <td>
+            <button (click)="openModal(revenue)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredRevenues.length === 0">
+          <td colspan="8" class="text-center">No revenues available</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+
+<!-- Modal to Display Paid Coupons -->
+<div [ngClass]="{ modal: true, show: isModalOpen }" id="couponModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <div class="report-model">
+      <div *ngIf="selectedRevenue">
+      <h4>Cash out for {{ selectedRevenue.businessName }}</h4>
+        <div class="modal-info">
+          <span>Total Sale Amount</span>
+          <p class="p">{{ selectedRevenue.totalAmount }} MMK</p>
+        </div>
+        <div class="modal-info">
+          <span>Percentage</span>
+          <p class="p">{{ selectedRevenue.percentage }} %</p>
+        </div>
+        <div class="modal-info">
+          <span>Total Pay Amount</span>
+          <p class="p">{{ selectedRevenue.payAmount }} MMK</p>  
+        </div>
+        <div class="modal-info">
+          <span>Pay Date</span>
+          <p class="p">{{ selectedRevenue.payDate | date : "medium" }}</p>
+        </div>
+      </div>
+      <hr>
+      <h5>Coupon List</h5>
+      <!-- Display Paid Coupons -->
+      <div *ngIf="groupedCoupons && groupedCoupons.length" class="modal-coupon-list">
+      
+        <table class="coupon-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let coupon of groupedCoupons; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <img
+                  [src]="baseUrl + coupon.packageImage"
+                  alt="{{ coupon.packageName }}"
+                  class="coupon-image"
+                />
+              </td>
+              <td>{{ coupon.packageName }}</td>
+              <td>{{ coupon.quantity }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="btn-container">
+      <button class="filter-button export-button" (click)="exportToPDF()">
+        <i class="fi fi-rr-file-export"></i>
+        <p>Export</p>
+      </button>
+      
+    </div>
+
+    <div *ngIf="!groupedCoupons || !groupedCoupons.length">
+      <p>No paid coupons available.</p>
+    </div>
+  </div>
+</div>
+
+<div class="report-section">
+  <h2>Cash out report</h2>
+  <table class="report-table">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Business Name</th>
+        <th>Total Amount</th>
+        <th>Pay Amount</th>
+        <th>(%)</th>
+        <th>Pay Date</th>
+        <th>From Date</th>
+        <th>To Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let revenue of filteredRevenues; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ revenue.businessName }}</td>
+        <td>{{ revenue.totalAmount }} MMK</td>
+        <td>{{ revenue.payAmount }} MMK</td>
+        <td class="percentage">{{ revenue.percentage }}%</td>
+        <td>{{ revenue.payDate | date : "medium" }}</td>
+        <td>{{ revenue.fromDate | date : "medium" }}</td>
+        <td>{{ revenue.toDate | date : "medium" }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

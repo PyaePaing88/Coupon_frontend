@@ -1,0 +1,34 @@
+<!-- Check if there are deleted businesses -->
+<div
+  *ngIf="deletedBusinesses.length > 0; else noData"
+  class="businesses-container"
+>
+  <div *ngFor="let business of deletedBusinesses" class="business-card">
+    <!-- Business Image -->
+    <div *ngIf="business.image" class="business-image-container">
+      <img
+        [src]="baseUrl + business.image"
+        alt="Business Image"
+        class="business-image"
+      />
+    </div>
+
+    <!-- Card Info -->
+    <div class="business-info">
+      <h3 class="business-name">{{ business.name }}</h3>
+      <p class="business-phone">Phone: {{ business.phone }}</p>
+      <p class="business-email">Email: {{ business.email }}</p>
+    </div>
+
+    <div class="btn-container">
+      <button class="btn-cart" (click)="restoreBusiness(business.id)">
+        Restore
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- No data message -->
+<ng-template #noData>
+  <p class="no-data-message">Deleted business is empty now.</p>
+</ng-template>

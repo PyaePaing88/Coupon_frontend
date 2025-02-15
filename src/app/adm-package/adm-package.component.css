@@ -1,0 +1,231 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: row;
+}
+
+.sidebar-container {
+  position: relative;
+}
+
+.content {
+  flex-grow: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+  background-color: #f4f6f7;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.content-expanded {
+  margin-left: 50px;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 332px;
+  left: 230px;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  color: #555;
+  border: none;
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #ecf0f1;
+}
+
+.sidebar-toggle-btn.sidebar-collapsed {
+  left: 30px;
+}
+
+/*---------------------------*/
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-box {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-box:focus {
+  border-color: #007bff;
+}
+
+.range-filter {
+  display: flex;
+  gap: 10px;
+}
+
+.number-input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  width: 120px;
+  transition: border-color 0.3s ease;
+}
+
+.number-input:focus {
+  border-color: #007bff;
+}
+
+/* Table Styles */
+.package-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-size: smaller;
+}
+
+.package-table thead {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.package-table th,
+.package-table td {
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.package-table th {
+  font-weight: bold;
+}
+
+.package-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.package-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.package-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+.status-badge.soldout {
+  background-color: #ffe7e4;
+  color: #ff1900;
+}
+
+.status-badge.expired {
+  background-color: #fff2dc;
+  color: #ff8c00;
+}
+
+.status-badge.available {
+  background-color: #e4ffef;
+  color: #00b012;
+}
+
+.see-more-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.see-more-btn:hover {
+  text-decoration: underline;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  color: #e74c3c;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #ffe2df;
+}
+
+.delete-btn i {
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .range-filter {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .package-table th,
+  .package-table td {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,58 @@
+<app-navigation></app-navigation>
+<div class="cart-container">
+  <div class="cart-header">
+    <h4>Your Cart</h4>
+    <h4>{{ cartItems.length || 0 }} items</h4>
+  </div>
+  <div *ngIf="cartItems.length === 0" class="empty-cart">
+    <p>Your cart is empty.</p>
+  </div>
+  <div *ngFor="let item of cartItems" class="cart-item">
+    <div class="item-image">
+      <img
+        [src]="baseUrl + item.packageDetails.image"
+        alt="{{ item.packageDetails.name }}"
+      />
+    </div>
+    <div class="item-details">
+      <div class="info">
+        <h3>{{ item.packageDetails.name }}</h3>
+        <p style="display: none">
+          {{ item.packageDetails.id }}
+        </p>
+        <p>
+          Expired date:
+          <span>{{ item.packageDetails.expired_date | date : "medium" }} </span>
+        </p>
+      </div>
+      <p>
+        Unit Price: <span>{{ item.packageDetails.unit_price }} MMK</span>
+      </p>
+      <p>
+        Total Price: <strong>{{ item.unit_price }} MMK</strong>
+      </p>
+      <div class="control-container">
+        <div class="quantity-control">
+          <button class="control" (click)="decreaseQuantity(item)">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+          <input type="number" [value]="item.unit_quantity" readonly />
+          <button class="control" (click)="increaseQuantity(item)">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+        <button class="remove" (click)="removeItem(item.id)">
+          <i class="fi fi-rr-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Total Price and Checkout Button -->
+<div class="checkout-container">
+  <div class="total-price">
+    Total Price: <strong>{{ getTotalPrice() }} MMK</strong>
+  </div>
+  <button class="checkout-button" (click)="checkout()">Checkout</button>
+</div>

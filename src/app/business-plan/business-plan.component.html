@@ -1,0 +1,104 @@
+<app-business-navigation></app-business-navigation>
+<div class="pricing-plans">
+  <h1>Plans for Your Need</h1>
+  <p>Select from best plans, ensuring a perfect match.</p>
+  <p>Need more or less? Customize your subscription for a seamless fit!</p>
+  <div class="plans">
+    <div
+      *ngFor="let plan of plans"
+      class="plan"
+      [ngClass]="{
+        selected:
+          (businessPlan?.planId === null && plan.id === 1) ||
+          businessPlan?.planId === plan.id,
+        'current-plan': businessPlan?.planId === plan.id
+      }"
+    >
+      <div class="plan-head">
+        <i class="fi fi-rr-crown"></i>
+        <h2>{{ plan.name }}</h2>
+      </div>
+      <p class="price">{{ plan.price }}<span>MMK</span></p>
+      <ul>
+        <i class="fa fa-check-circle"></i>
+        Can create up to
+        {{
+          plan.max_packages
+        }}
+        packages.
+      </ul>
+      <!-- Hide upgrade button if the business has purchased this plan or higher -->
+      <button
+        *ngIf="!shouldHideUpgradeButton(plan)"
+        (click)="openPaymentModal(plan)"
+      >
+        Upgrade
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+<!-- Payment Modal -->
+<div *ngIf="showPaymentModal" class="payment-modal">
+  <div class="modal-content">
+    <!-- Header -->
+    <div class="payment-head">
+      <h3>Payment for {{ selectedPlan?.name }} plan</h3>
+      <a class="close-btn" (click)="closePaymentModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </a>
+    </div>
+
+    <!-- Payment Options -->
+    <div class="payment-method-container">
+      <!-- QR Code Display -->
+      <div class="qr-codes">
+        <div class="qr-code">
+          <img [src]="baseUrl + qrCode" alt="QR Code" />
+        </div>
+      </div>
+
+      <!-- Payment Methods -->
+      <div *ngIf="paymentMethods.length > 0" class="payment-options">
+        <label *ngFor="let method of paymentMethods" class="payment-type">
+          <input
+            type="radio"
+            name="payment-type"
+            [value]="method.paymentType"
+            [(ngModel)]="paymentType"
+            (change)="changeQR(method.paymentType)"
+            [checked]="paymentType === method.paymentType"
+          />
+          <span>{{ method.paymentType }}</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Payment Details -->
+    <div class="payment-method-container">
+      <input
+        type="text"
+        id="transactionId"
+        placeholder="Enter Transaction ID"
+        [(ngModel)]="transactionId"
+      />
+
+      <input
+        type="text"
+        id="planPrice"
+        [value]="selectedPlan?.price"
+        readonly
+      />
+
+      <!-- Pay Button (Disabled Until Valid Input) -->
+      <button
+        class="pay-btn"
+        (click)="confirmPayment()"
+        [disabled]="!paymentType || !transactionId"
+      >
+        confirm Payment
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,152 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="head">
+      <h4>Coupon Sales</h4>
+      <div class="total-container">
+        <div class="total">
+          <label>Total quantity:</label>
+          <input type="number" [value]="totalQuantity()" readonly />
+        </div>
+        <div class="total">
+          <label>Total amount:</label>
+          <input type="number" [value]="totalAmount()" readonly />
+          <label>MMK</label>
+        </div>
+      </div>
+      <div style="display: flex; gap: 10px">
+        <button class="filter-button" (click)="showFilters = !showFilters">
+          <i class="fi fi-rr-filter"></i>
+          <p>{{ showFilters ? "Hide Filters" : "Show Filters" }}</p>
+        </button>
+        <button class="Export-button" (click)="toggleDropdown()">
+          <p>Export</p>
+          <i class="fa-solid fa-angle-down"></i>
+        </button>
+        <div [ngClass]="{ show: dropdownVisible }" class="table-report">
+          <button (click)="downloadReport('pdf')" class="pdf-btn">
+            <i class="fi fi-rr-file-pdf"></i>Download PDF
+          </button>
+          <button (click)="downloadReport('excel')" class="excel-btn">
+            <i class="fi fi-rr-file-xls"></i>Download Excel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section" [class.show]="showFilters" *ngIf="showFilters">
+      <div class="filter-item">
+        <input
+          type="text"
+          id="search"
+          placeholder="Search by package name"
+          [(ngModel)]="searchText"
+          (input)="applyFilters()"
+        />
+      </div>
+      <div class="filter-item">
+        <select
+          id="category"
+          [(ngModel)]="selectedCategory"
+          (input)="applyFilters()"
+        >
+          <option value="">Select Date Type</option>
+          <option value="purchaseDate">Purchase Date</option>
+          <option value="expiredDate">Expired Date</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="startDate">From:</label>
+        <input
+          type="date"
+          id="startDate"
+          [(ngModel)]="startDate"
+          (change)="applyFilters()"
+        />
+      </div>
+      <div class="filter-item">
+        <label for="endDate">To:</label>
+        <input
+          type="date"
+          id="endDate"
+          [(ngModel)]="endDate"
+          (change)="applyFilters()"
+        />
+      </div>
+    </div>
+
+    <table class="coupon-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Business</th>
+          <th>Purchase Date</th>
+          <th>Expired Date</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let coupon of filteredCoupons | orderByConfirm; let i = index"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>
+            <div *ngIf="coupon.image">
+              <img
+                [src]="baseUrl + coupon.image"
+                alt="Package image"
+                class="package-image"
+              />
+            </div>
+          </td>
+          <td>{{ coupon.packageName }}</td>
+          <td>
+            <span
+              *ngIf="coupon.confirm === 'CONFIRM'"
+              class="status-badge confirm"
+              >Confirm</span
+            >
+            <span
+              *ngIf="coupon.confirm === 'DECLINED'"
+              class="status-badge declined"
+              >Declined</span
+            >
+            <span
+              *ngIf="coupon.confirm === 'PENDING'"
+              class="status-badge pending"
+              >Pending</span
+            >
+          </td>
+          <td>{{ coupon.businessName }}</td>
+          <td>{{ coupon.purchase_date | date : "medium" }}</td>
+          <td>{{ coupon.expired_date | date : "medium" }}</td>
+          <td>{{ coupon.unit_price }} MMK</td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>

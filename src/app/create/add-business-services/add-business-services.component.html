@@ -1,0 +1,47 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="form-container">
+      <form #Sform="ngForm" (ngSubmit)="onSubmit(Sform)">
+        <div class="card">
+          <div class="card_form">
+            <h4 style="text-align: center">Add Service</h4>
+            <input
+              [(ngModel)]="services.name"
+              name="name"
+              placeholder="Your Service"
+              type="text"
+            />
+          </div>
+
+          <div class="btn-container">
+            <button class="card_submit" type="submit">Add</button>
+            <button class="card_cancel" type="button" (click)="onCancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

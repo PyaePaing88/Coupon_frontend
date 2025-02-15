@@ -1,0 +1,208 @@
+<app-navigation></app-navigation>
+<div class="coupon-container">
+  <div class="header">
+    <div class="header-title">
+      <h4>My Coupons</h4>
+      <div class="dropdown">
+        <button class="dropdown-button" (click)="Dropdown()">
+          <i class="fi fi-rr-angle-small-down"></i>
+        </button>
+        <div
+          class="list-btn-container"
+          [style.display]="isDropdownVisible ? 'block' : 'none'"
+        >
+          <button class="list-button" routerLink="/transferlist">
+            Transfer
+          </button>
+          <button class="list-button" routerLink="/receivelist">Receive</button>
+          <button class="list-button" routerLink="/uselist">Used</button>
+          <button class="list-button" routerLink="/expiredlist">Expired</button>
+        </div>
+      </div>
+    </div>
+    <h4>{{ showCoupon.length }} coupons</h4>
+  </div>
+
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterCoupons()"
+    class="coupon-search"
+    placeholder="Search by package name..."
+  />
+  <!-- Coupon List Section -->
+  <div class="coupon-list">
+    <div *ngIf="filteredCoupons.length > 0; else noCoupons" class="coupons">
+      <div *ngFor="let coupon of filteredCoupons">
+        <div *ngIf="!isExpired(coupon.expired_date)" class="coupon-item">
+          <div class="coupon-item-body">
+            <div class="coupon-header">
+              <img
+                *ngIf="coupon.image"
+                [src]="baseUrl + coupon.image"
+                alt="Coupon Image"
+                class="coupon-image"
+              />
+            </div>
+
+            <div class="coupon-details">
+              <div class="coupon-detail-row">
+                <strong>{{ coupon.packageName }}</strong>
+              </div>
+              <div
+                class="coupon-detail-row"
+                [ngClass]="{
+                  'expiring-soon': isExpiringSoon(coupon.expired_date)
+                }"
+              >
+                <span>{{
+                  isExpiringSoon(coupon.expired_date)
+                    ? "Expired Soon"
+                    : "Expired at "
+                }}</span>
+                <span>{{ coupon.expired_date | date : "medium" }}</span>
+              </div>
+              <p
+                class="status"
+                [ngClass]="{
+                  'status-confirm': coupon.confirm === 'CONFIRM',
+                  'status-declined': coupon.confirm === 'DECLINED',
+                  'status-pending': coupon.confirm === 'PENDING'
+                }"
+              >
+                {{ coupon.confirm | titlecase }}
+              </p>
+            </div>
+            <div *ngIf="coupon.confirm === 'CONFIRM'" class="coupon-actions">
+              <button class="use-btn" (click)="onUseCoupon(coupon)">
+                <i class="fa-solid fa-qrcode"></i> Use
+              </button>
+
+              <button class="transfer-btn" (click)="openTransferModal(coupon)">
+                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                Transfer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noCoupons>
+      <div class="no-coupons">
+        <div class="loading">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Modal to display QR code -->
+  <div class="use-modal" [ngClass]="{ show: isUseModalOpen }">
+    <div class="use-modal-content">
+      <span class="use-close-btn" (click)="closeModal()">&times;</span>
+
+      <!-- Display QR code if Code is available -->
+      <div #qrCodeContainer class="qr-container">
+        <div>
+          <h5>{{ selectedCoupon?.packageName }}</h5>
+        </div>
+        <qr-code *ngIf="Code" [value]="Code" [size]="256"></qr-code>
+        <div class="qr-img-container">
+          <img
+            *ngIf="Code"
+            [src]="baseUrl + selectedCoupon.image"
+            class="qr-img"
+          />
+        </div>
+        <p>Expired at - {{ selectedCoupon?.expired_date | date : "medium" }}</p>
+      </div>
+
+      <!-- Show a loading message if Code is not yet set -->
+      <div *ngIf="!Code">
+        <div class="loading">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <button class="save-btn" (click)="saveQrCode()">
+        <i class="fa-regular fa-floppy-disk"></i> Save
+      </button>
+    </div>
+  </div>
+
+  <!-- Transfer Modal -->
+  <div *ngIf="isModalOpen" class="transfer-modal">
+    <div class="transfer-modal-content">
+      <span (click)="closeTransferModal()" class="transfer-close-btn"
+        >&times;</span
+      >
+      <h3>Transfer Coupon</h3>
+
+      <img
+        *ngIf="selectedCoupon?.image"
+        [src]="baseUrl + selectedCoupon?.image"
+        alt="Coupon Image"
+        class="transfer-coupon-image"
+      />
+
+      <h4>
+        <strong>{{ selectedCoupon?.packageName }}</strong>
+      </h4>
+      <p>Expired at - {{ selectedCoupon?.expired_date | date : "medium" }}</p>
+
+      <div class="email-input-container">
+        <input
+          type="email"
+          [(ngModel)]="receiverEmail"
+          (input)="onEmailInput()"
+          placeholder="Enter receiver's email"
+          class="email-input"
+        />
+
+        <input
+          type="note"
+          [(ngModel)]="note"
+          placeholder="Enter note"
+          class="email-input"
+          required="true"
+        />
+
+        <button (click)="transferCoupon()" class="tran-btn">Transfer</button>
+      </div>
+      <ul *ngIf="emailSuggestions.length" class="suggestions-list">
+        <li *ngFor="let email of emailSuggestions" (click)="selectEmail(email)">
+          {{ email }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- use coupon popup -->
+<div *ngIf="readycoupon" class="transfer-modal">
+  <div class="transfer-modal-content">
+    <span (click)="closeModal()" class="transfer-close-btn">&times;</span>
+    <h3>Use Coupon</h3>
+    <img
+      [src]="baseUrl + readycoupon.image"
+      [alt]="readycoupon.image"
+      class="transfer-coupon-image"
+    />
+    <h4>{{ readycoupon.packageName }}</h4>
+    <p>Expired at - {{ readycoupon.expired_date | date : "medium" }}</p>
+    <p>Purchase at - {{ readycoupon.purchase_date | date : "medium" }}</p>
+    <button (click)="confrimTouse(readycoupon.id)" class="tran-btn">
+      Confirm
+    </button>
+  </div>
+</div>
+
+<app-footer></app-footer>

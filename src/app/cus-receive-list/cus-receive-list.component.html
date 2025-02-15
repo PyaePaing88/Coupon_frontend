@@ -1,0 +1,164 @@
+<app-navigation></app-navigation>
+<div class="coupon-container">
+  <div class="header">
+    <div class="header-title">
+      <h4>Receive coupons</h4>
+      <div class="dropdown">
+        <button class="dropdown-button" (click)="Dropdown()">
+          <i class="fi fi-rr-angle-small-down"></i>
+        </button>
+        <div
+          class="list-btn-container"
+          [style.display]="isDropdownVisible ? 'block' : 'none'"
+        >
+          <button class="list-button" routerLink="/my-coupon">My Coupon</button>
+          <button class="list-button" routerLink="/transferlist">
+            Transfer
+          </button>
+          <button class="list-button" routerLink="/uselist">Used</button>
+          <button class="list-button" routerLink="/expiredlist">Expired</button>
+        </div>
+      </div>
+    </div>
+    <h4>{{ receiveList.length }} coupons</h4>
+  </div>
+
+  <!-- Coupon List Section -->
+  <div class="coupon-list">
+    <div *ngIf="receiveList.length > 0; else noCoupons" class="coupons">
+      <div *ngFor="let receive of receiveList">
+        <div *ngIf="!isExpired(receive.expired_date)" class="coupon-item">
+          <div class="coupon-item-body">
+            <div class="coupon-header">
+              <img
+                *ngIf="receive.image"
+                [src]="baseUrl + receive.image"
+                alt="Coupon Image"
+                class="coupon-image"
+              />
+            </div>
+
+            <div class="coupon-details">
+              <div class="coupon-detail-row">
+                <strong>{{ receive.packageName }}</strong>
+              </div>
+              <div
+                class="coupon-detail-row"
+                [ngClass]="{
+                  'expiring-soon': isExpiringSoon(receive.expired_date)
+                }"
+              >
+                <span>{{
+                  isExpiringSoon(receive.expired_date)
+                    ? "Expired Soon"
+                    : "Expired at "
+                }}</span>
+                <span>{{ receive.expired_date | date : "medium" }}</span>
+              </div>
+
+              <div class="coupon-detail-row">
+                <span>Sender Name:</span>
+                <strong>{{ receive.senderName }}</strong>
+              </div>
+              <strong>{{ receive.note }}</strong>
+            </div>
+
+            <div class="card-footer">
+              <span
+                >Transfer Date:
+                {{ receive.transfer_date | date : "medium" }}</span
+              >
+              <div class="coupon-actions">
+                <button class="use-btn" (click)="onUseCoupon(receive)">
+                  <i class="fa-solid fa-qrcode"></i> Use
+                </button>
+
+                <!-- View Details Button -->
+                <button
+                  class="view-details-btn"
+                  (click)="openBusinessModal(receive.coupon_id || 0)"
+                >
+                  <i class="fa-solid fa-info-circle"></i> Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noCoupons>
+      <p>No coupons available.</p>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Modal to display Business Details -->
+<div class="business-modal" [ngClass]="{ show: isBusinessModalOpen }">
+  <div class="business-modal-content">
+    <span class="close-btn" (click)="closeBusinessModal()">&times;</span>
+    <h3>Business Details</h3>
+
+    <!-- Display Business Information -->
+    <div *ngIf="selectedBusiness" class="business-details">
+      <img
+        *ngIf="selectedBusiness.image"
+        [src]="baseUrl + selectedBusiness.image"
+        alt="Business Image"
+        class="Business-image"
+      />
+
+      <a
+        class="business-name"
+        routerLink="/business/{{ selectedBusiness.id }}"
+        >{{ selectedBusiness.name }}</a
+      >
+
+      <p><strong>Phone:</strong> {{ selectedBusiness.phone }}</p>
+      <p><strong>Email:</strong> {{ selectedBusiness.email }}</p>
+      <p><strong>Address:</strong> {{ selectedBusiness.address }}</p>
+    </div>
+
+    <!-- If no business is found, show loading or error message -->
+    <div *ngIf="!selectedBusiness" class="loading">
+      <span>Loading business details...</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal to display QR code -->
+<div class="modal" [ngClass]="{ show: isUseModalOpen }">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+    <!-- Display QR code if Code is available -->
+    <div #qrCodeContainer class="qr-container">
+      <div>
+        <h5>{{ selectedCoupon?.packageName }}</h5>
+      </div>
+      <qr-code *ngIf="Code" [value]="Code" [size]="256"></qr-code>
+      <div class="qr-img-container">
+        <img
+          *ngIf="Code"
+          [src]="baseUrl + selectedCoupon.image"
+          class="qr-img"
+        />
+      </div>
+      <p>Expired at - {{ selectedCoupon?.expired_date | date : "medium" }}</p>
+    </div>
+    <!-- Show a loading message if Code is not yet set -->
+    <div *ngIf="!Code">
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <button class="save-btn" (click)="saveQrCode()">
+      <i class="fa-regular fa-floppy-disk"></i> Save
+    </button>
+  </div>
+</div>
+
+<app-footer></app-footer>

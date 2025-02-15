@@ -1,0 +1,430 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: row;
+}
+
+.sidebar-container {
+  position: relative;
+}
+
+.content {
+  flex-grow: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+  background-color: #f4f6f7;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.content-expanded {
+  margin-left: 50px;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 332px;
+  left: 230px;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  color: #555;
+  border: none;
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #ecf0f1;
+}
+
+.sidebar-toggle-btn.sidebar-collapsed {
+  left: 30px;
+}
+
+/*---------------------------*/
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  align-items: center;
+  display: flex;
+  font-size: smaller;
+}
+
+.filter-button:hover {
+  background-color: #0066d4;
+}
+
+.filter-button i {
+  margin-right: 10px;
+}
+
+.filter-button p {
+  margin-bottom: 5px;
+}
+
+.head a {
+  margin-top: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #555;
+  font-size: larger;
+}
+
+.head a:hover {
+  color: #007bff;
+}
+/*----------------------------------*/
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 2s ease, opacity 2s ease;
+}
+
+.filter-section.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  width: 200px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+/*----------------------------------*/
+.list {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-size: smaller;
+}
+
+.list thead {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.list th,
+.list td {
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.list th {
+  font-weight: bold;
+}
+
+.list tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.list tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.list td button {
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.list td button i {
+  font-size: 16px;
+  color: #007bff;
+}
+
+.list td button:hover {
+  background-color: #cbe4ff;
+  color: #025fc2;
+}
+
+.percentage {
+  color: forestgreen;
+}
+
+/* Modal Styles */
+/* Modal Container */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  overflow: auto;
+  padding-top: 60px;
+}
+
+.modal.show {
+  display: block; /* Show the modal when active */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
+  top: 5px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 700px;
+  height: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  position: relative;
+}
+
+/* Close Button */
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Header for Revenue Info */
+.modal-content h4 {
+  margin-bottom: 30px;
+}
+
+.modal-info{
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-content span {
+  font-weight: bold;
+}
+
+/* Modal Coupon List */
+.modal-coupon-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 0;
+}
+
+
+/* Table for Coupons */
+.coupon-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.coupon-table th, .coupon-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.coupon-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Coupon Image */
+.coupon-image {
+  max-width: 30px;
+  max-height: 30px;
+  object-fit: cover;
+}
+
+/* No Coupons Message */
+.p {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Additional styling */
+table, th, td {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: center;
+}
+
+.btn-container{
+  width:100%;
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.export-button{
+  padding: 10px 20px;
+  background-color: #007bff;
+  border-radius: 10px;
+  width: fit-content;
+  color: white;
+  border: none;
+  align-items: center;
+  display: flex;
+  font-size: smaller;
+}
+
+.export-button i {
+  margin-right: 10px;
+}
+
+.export-button p {
+  margin-bottom: 5px;
+}
+
+
+
+/* Styling for the coupon table */
+.coupon-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.coupon-tabl thead {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.coupon-table th,
+.coupon-table td {
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.coupon-table th {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.coupon-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.coupon-table td img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.report-section {
+  width: auto;
+  margin: 20px auto;
+  padding: 20px;
+  display: none;
+}
+
+.report-section h2 {
+  margin: 10px auto 20px auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.report-table thead th {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.report-table tbody td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.report-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.report-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.report-table th,
+.report-table td {
+  text-align: center; /* Center align for better appearance */
+}
+
+.report-table thead th:first-child,
+.report-table tbody td:first-child {
+  text-align: left; /* Align the first column (No) to the left */
+}
+
+.report-table {
+  page-break-inside: auto;
+}
+
+.report-table tr {
+  page-break-inside: avoid;
+  page-break-after: auto;
+}

@@ -1,0 +1,94 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="header">
+      <h3>Plans</h3>
+      <button (click)="toggleModal()">Create Plan</button>
+    </div>
+
+    <div class="plan-list">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Max Packages</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plan of plans">
+            <td>{{ plan.id }}</td>
+            <td>{{ plan.name }}</td>
+            <td>{{ plan.max_packages }}</td>
+            <td>{{ plan.price }} MMK</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal" [ngClass]="{ active: isModalVisible }">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create Plan</h4>
+          <button type="button" class="close" (click)="toggleModal()">×</button>
+        </div>
+        <form (ngSubmit)="onSubmit()" [formGroup]="planForm">
+          <div class="form-group">
+            <label for="name">Plan Name</label>
+            <input
+              id="name"
+              formControlName="name"
+              class="form-control"
+              placeholder="Enter plan name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="max_packages">Max Packages</label>
+            <input
+              id="max_packages"
+              formControlName="max_packages"
+              type="number"
+              class="form-control"
+              placeholder="Enter max packages"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input
+              id="price"
+              formControlName="price"
+              type="number"
+              class="form-control"
+              placeholder="Enter price"
+            />
+          </div>
+
+          <button type="submit" [disabled]="planForm.invalid">Save Plan</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,46 @@
+<div *ngIf="feedbackList.length > 0; else noFeedback">
+  <div
+    class="feedback-card"
+    *ngFor="let feedback of feedbackList; let i = index"
+  >
+    <div class="feedback-header">
+      <div class="profile">
+        <img
+          *ngIf="feedback.user_photo"
+          [src]="
+            feedback.user_photo.startsWith('users_images')
+              ? baseUrl + feedback.user_photo
+              : feedback.user_photo || 'assets/default-user-photo.png'
+          "
+          alt="User Photo"
+          class="user-photo"
+        />
+        <div class="user-info">
+          <h3>{{ feedback.user_name }}</h3>
+          <p>{{ feedback.user_email }}</p>
+        </div>
+      </div>
+      <p class="feedback-date">
+        {{ feedback.feedback_date | date : "medium" }}
+      </p>
+    </div>
+    <div class="feedback-body">
+      <div class="message-cell">
+        <p class="message-text" [ngClass]="{ expanded: expandedIndex === i }">
+          {{
+            expandedIndex === i
+              ? feedback.message
+              : (feedback.message | slice : 0 : 50) + "..."
+          }}
+        </p>
+        <button class="see-more-btn" (click)="toggleMessage(i)">
+          {{ expandedIndex === i ? "See Less" : "See More" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noFeedback>
+  <p>No feedback available at the moment.</p>
+</ng-template>

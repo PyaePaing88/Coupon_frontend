@@ -1,0 +1,141 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="header">
+      <div class="header-title">
+        <h4 style="text-align: left; margin-right: 10px">Service List</h4>
+        <div class="dropdown">
+          <button class="dropdown-button" (click)="Dropdown()">
+            <i class="fi fi-rr-angle-small-down"></i>
+          </button>
+          <div
+            class="list-btn-container"
+            [style.display]="isDropdownVisible ? 'block' : 'none'"
+          >
+            <button class="list-button" routerLink="/adm-categorylist">
+              Category List
+            </button>
+            <button class="list-button" routerLink="/adm-business">
+              Business List
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="service-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Service Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let service of showService; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ service.name }}</td>
+          <td class="edit-btn-container">
+            <button
+              class="action-btn edit-btn"
+              (click)="openEditServiceModal(service)"
+            >
+              Edit
+            </button>
+
+            <button
+              class="action-btn delete-btn"
+              (click)="confirmDeleteService(service)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="modal-overlay" *ngIf="selectedService">
+      <div class="modal-content">
+        <h3>Edit Service</h3>
+        <div class="form-group">
+          <label for="serviceName">Category Name</label>
+          <input
+            id="serviceName"
+            [(ngModel)]="selectedService.name"
+            class="form-control"
+            type="text"
+            placeholder="Enter service name"
+          />
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" (click)="updateService()">
+            Update
+          </button>
+          <button class="btn btn-secondary" (click)="closeEditServiceModal()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" *ngIf="serviceToDelete">
+      <div class="modal-content">
+        <h3>Confirm Delete</h3>
+        <p>
+          Are you sure you want to delete the service "{{
+            serviceToDelete.name
+          }}"?
+        </p>
+        <div class="modal-actions">
+          <button
+            class="btn btn-danger"
+            (click)="deleteService(serviceToDelete.id)"
+          >
+            Delete
+          </button>
+          <button class="btn btn-secondary" (click)="cancelDelete()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="floating-btn-dropdown">
+      <button class="floating-add-btn" (click)="toggleDropdown()">
+        <i class="fas fa-plus"></i>
+      </button>
+      <div class="dropdown-menu" *ngIf="isDropdownOpen">
+        <button
+          class="dropdown-item"
+          routerLink="/adm-business/Category/create"
+        >
+          Add Category
+        </button>
+        <button class="dropdown-item" routerLink="/Service/create">
+          Add Service
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

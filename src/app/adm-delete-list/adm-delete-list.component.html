@@ -1,0 +1,55 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="tab-container">
+      <!-- Tab Navigation -->
+      <ul class="tab-navigation">
+        <li
+          [class.active]="activeTab === 'business'"
+          (click)="setActiveTab('business')"
+        >
+          Deleted Businesses
+        </li>
+        <li
+          [class.active]="activeTab === 'package'"
+          (click)="setActiveTab('package')"
+        >
+          Deleted Packages
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Deleted Businesses Tab -->
+        <div *ngIf="activeTab === 'business'">
+          <app-adm-business-delete></app-adm-business-delete>
+        </div>
+
+        <!-- Deleted Packages Tab -->
+        <div *ngIf="activeTab === 'package'">
+          <app-adm-package-delete></app-adm-package-delete>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,154 @@
+/* Package Form */
+.package-form {
+  margin: 10px auto;
+  max-width: 900px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+/* Form Header */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-header h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Photo Upload Section Styles */
+.photo-upload-section {
+  text-align: center;
+  margin-bottom: 0;
+  padding: 20px;
+}
+
+.image-preview-container {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.image-preview-container input[type="file"] {
+  display: none; /* Hide the file input */
+}
+
+.image-preview-box {
+  width: 100%;
+  max-width: 300px; /* Adjust the max width as needed */
+  aspect-ratio: 1 / 1; /* Make the box square */
+  margin: auto;
+  border: 2px dashed #cccccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #ffffff;
+  position: relative;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.image-preview-box:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the square box */
+}
+
+.upload-label {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #fab400;
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.upload-label:hover {
+  background-color: #a47602;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.upload-label:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Input Group */
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.input-group input,
+.input-group textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+}
+
+.submit-button,
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-button {
+  background-color: #fab400;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.submit-button:hover {
+  background-color: #996f04;
+}
+
+.cancel-button {
+  background-color: #fff;
+  border: 1px solid #fab400;
+  color: #fab400;
+}
+
+.cancel-button:hover {
+  background-color: #fab400;
+  color: #fff;
+}

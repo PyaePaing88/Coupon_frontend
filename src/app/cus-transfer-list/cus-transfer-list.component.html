@@ -1,0 +1,63 @@
+<app-navigation></app-navigation>
+<div class="coupon-container">
+  <div class="header">
+    <div class="header-title">
+      <h4>Transfer coupons</h4>
+      <div class="dropdown">
+        <button class="dropdown-button" (click)="Dropdown()">
+          <i class="fi fi-rr-angle-small-down"></i>
+        </button>
+        <div
+          class="list-btn-container"
+          [style.display]="isDropdownVisible ? 'block' : 'none'"
+        >
+          <button class="list-button" routerLink="/my-coupon">My Coupon</button>
+          <button class="list-button" routerLink="/receivelist">Receive</button>
+          <button class="list-button" routerLink="/uselist">Used</button>
+          <button class="list-button" routerLink="/expiredlist">Expired</button>
+        </div>
+      </div>
+    </div>
+    <h4>{{ transferList.length }} coupons</h4>
+  </div>
+
+  <!-- Coupon List Section -->
+  <div class="coupon-list">
+    <div *ngIf="transferList.length > 0; else noCoupons" class="coupons">
+      <div *ngFor="let transfer of transferList" class="coupon-item">
+        <div class="coupon-item-body">
+          <div class="coupon-header">
+            <img
+              *ngIf="transfer.image"
+              [src]="baseUrl + transfer.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+
+          <div class="coupon-details">
+            <div class="coupon-detail">
+              <strong>{{ transfer.packageName }}</strong>
+              <span>Transfer Date: {{ transfer.transfer_date | date : "medium" }}</span>
+            </div>
+            <div class="coupon-detail-row">
+              <span>Receiver:</span>
+              <strong>{{ transfer.receiverName }}</strong>
+            </div>
+            <div class="coupon-detail-row">
+              <span>Note:</span>
+              <strong>{{ transfer.note }}</strong>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noCoupons>
+      <p>No coupons available.</p>
+    </ng-template>
+  </div>
+</div>
+
+<app-footer></app-footer>

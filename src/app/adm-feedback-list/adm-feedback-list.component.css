@@ -1,0 +1,114 @@
+.feedback-card {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.feedback-card:hover {
+  transform: scale(1.02);
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.user-info h3 {
+  font-size: 16px;
+  margin: 0;
+  color: #333;
+}
+
+.user-info p {
+  font-size: 14px;
+  color: #666;
+  margin: 2px 0 0;
+}
+
+.feedback-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.feedback-body {
+  margin-top: 10px;
+}
+
+.message-cell {
+  position: relative;
+}
+
+.message-text {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.message-text.expanded {
+  white-space: normal;
+}
+
+.see-more-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.see-more-btn:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .feedback-container {
+    padding: 15px;
+  }
+
+  .feedback-card {
+    padding: 12px;
+  }
+
+  .user-photo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .user-info h3 {
+    font-size: 14px;
+  }
+
+  .user-info p {
+    font-size: 12px;
+  }
+
+  .feedback-date {
+    font-size: 10px;
+  }
+
+  .message-text {
+    font-size: 13px;
+  }
+}

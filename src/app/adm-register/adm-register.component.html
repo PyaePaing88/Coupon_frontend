@@ -1,0 +1,174 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="container">
+      <h2>Sign Up</h2>
+      <p>Please enter your details</p>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-user"></i>
+            <input
+              formControlName="username"
+              type="text"
+              id="username"
+              placeholder="Enter your name"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('username')?.touched &&
+              registerForm.get('username')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('username')?.errors?.['required']">
+              Username is required.
+            </small>
+            <small *ngIf="registerForm.get('username')?.errors?.['minlength']">
+              Minimum 3 characters required.
+            </small>
+          </div>
+        </div>
+
+        <!-- Phone Field -->
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-phone-call"></i>
+            <input
+              formControlName="phone"
+              type="text"
+              id="phone"
+              placeholder="Enter your phone"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('phone')?.touched &&
+              registerForm.get('phone')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('phone')?.errors?.['required']">
+              Phone is required.
+            </small>
+          </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-at"></i>
+            <input
+              formControlName="email"
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('email')?.touched &&
+              registerForm.get('email')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('email')?.errors?.['required']">
+              Email is required.
+            </small>
+            <small *ngIf="registerForm.get('email')?.errors?.['email']">
+              Enter a valid email address.
+            </small>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-lock"></i>
+            <input
+              formControlName="password"
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('password')?.touched &&
+              registerForm.get('password')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('password')?.errors?.['required']">
+              Password is required.
+            </small>
+            <small *ngIf="registerForm.get('password')?.errors?.['minlength']">
+              Minimum 6 characters required.
+            </small>
+          </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-password-lock"></i>
+            <input
+              formControlName="confirmPassword"
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm password"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.hasError('passwordMismatch') &&
+              registerForm.get('confirmPassword')?.touched
+            "
+            class="error-text"
+          >
+            <small>Passwords do not match.</small>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="btn-container">
+          <button
+            type="submit"
+            [disabled]="registerForm.invalid"
+            class="button-submit"
+          >
+            Register
+          </button>
+          <button class="button-submit" (click)="onCancel()">Cancle</button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,275 @@
+.container {
+  padding: 20px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.total-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.total input {
+  width: 100px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.filter-button,
+.Export-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  margin: 5px 0; /* Add margin for spacing on smaller screens */
+}
+
+.filter-button:hover,
+.Export-button:hover {
+  background-color: #0066d4;
+}
+
+.filter-button i {
+  margin-right: 10px;
+}
+
+.filter-button p,
+.Export-button p {
+  margin-bottom: 0;
+}
+
+.Export-button i {
+  margin-left: 10px;
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.filter-section.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.filter-item {
+  align-items: center;
+  display: flex;
+  flex: 1 1 100%; /* Full width on smaller screens */
+  max-width: 100%;
+}
+
+.filter-item label {
+  margin-right: 5px;
+}
+
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  width: 100%; /* Full width on smaller screens */
+}
+
+/* Table Report Dropdown */
+.table-report {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 135px;
+  right: 100px; /* Adjusted for smaller screens */
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.table-report.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.table-report button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.table-report button:hover {
+  background-color: #e2e6ea;
+}
+
+/* Coupon Table */
+.coupon-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Enable horizontal scrolling on smaller screens */
+}
+
+.coupon-table thead {
+  background-color: #f8f8f8;
+  color: #333;
+  border: none;
+}
+
+.package-image {
+  width: 50px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.coupon-table th,
+.coupon-table td {
+  padding: 10px 15px;
+  text-align: left;
+  border: none;
+}
+
+.coupon-table th {
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+}
+
+.coupon-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.coupon-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+.status-badge.declined {
+  background-color: #ffe7e4;
+  color: #ff1900;
+}
+
+.status-badge.pending {
+  background-color: #fff2dc;
+  color: #ff8c00;
+}
+
+.status-badge.confirm {
+  background-color: #e4ffef;
+  color: #00b012;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .total-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-section {
+    flex-direction: column;
+  }
+
+  .filter-item {
+    flex: 1 1 100%;
+  }
+
+  .table-report {
+    top: 180px; /* Adjusted for smaller screens */
+    right: 10px;
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .coupon-table th,
+  .coupon-table td {
+    padding: 8px 10px;
+  }
+
+  .package-image {
+    width: 40px;
+  }
+
+  .coupon-table {
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-button,
+  .Export-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table-report {
+    top: 220px; /* Adjusted for smaller screens */
+    right: 5px;
+  }
+
+  .coupon-table th,
+  .coupon-table td {
+    font-size: 0.9rem;
+  }
+}

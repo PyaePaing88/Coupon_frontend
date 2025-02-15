@@ -1,0 +1,161 @@
+/* Dropdown container styling */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button styling */
+.dropdown-button {
+  color: #333;
+  background-color: #f4f6f7;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.dropdown-button:hover {
+  color: #fab400;
+}
+
+/* Dropdown menu container styling */
+.list-btn-container {
+  position: absolute;
+  width: 150px;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Initially hidden */
+  display: flex;
+  flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
+  gap: 10px;
+  justify-content: center; /* Centers buttons */
+  margin-bottom: 20px;
+}
+
+.list-button {
+  background-color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.list-button:hover {
+  color: #fab400;
+}
+
+/* Business Card Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-title {
+  display: flex;
+}
+
+/* General Container Styling */
+.coupon-container {
+  width: 70%;
+  padding: 20px;
+  margin: 0 auto;
+  color: #333; /* Dark color for general text */
+}
+
+/* Coupon List */
+.coupon-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.coupon-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.coupon-item-body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.coupon-header .coupon-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.coupon-details {
+  flex-grow: 1;
+}
+
+.coupon-detail-row {
+  margin-bottom: 10px;
+}
+
+.coupon-detail-row span {
+  margin-right: 10px;
+  color: #333; /* Ensure dark color for labels */
+}
+
+/* Pending Status Styling */
+.coupon-details p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #f39c12; /* Orange color to represent Pending */
+  margin-top: 10px;
+}
+
+.no-coupons {
+  text-align: center;
+  color: #888; /* Soft gray color for no coupons message */
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .coupon-container {
+    width: 100%;
+  }
+  /* Coupon List */
+  .coupon-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coupon-header .coupon-image {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .coupon-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .coupon-header .coupon-image {
+    width: 60px;
+    height: 60px;
+  }
+}

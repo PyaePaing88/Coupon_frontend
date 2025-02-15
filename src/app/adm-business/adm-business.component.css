@@ -1,0 +1,349 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: row;
+}
+
+.sidebar-container {
+  position: relative;
+}
+
+.content {
+  flex-grow: 1;
+  margin-left: 250px;
+  transition: margin-left 0.3s ease-in-out;
+  background-color: #f4f6f7;
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+.content-expanded {
+  margin-left: 50px;
+}
+
+.sidebar-toggle-btn {
+  position: absolute;
+  top: 332px;
+  left: 230px;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  color: #555;
+  border: none;
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: #ecf0f1;
+}
+
+.sidebar-toggle-btn.sidebar-collapsed {
+  left: 30px;
+}
+
+/*---------------------------*/
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  color: #333;
+  background-color: #f4f6f7;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.list-btn-container {
+  position: absolute;
+  width: 150px;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.list-button {
+  background-color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.list-button:hover {
+  color: #007bff;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+
+.header-title {
+  display: flex;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-box {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.filter-select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.search-box:focus,
+.filter-select:focus {
+  outline: none;
+  border: 1px solid #007bff !important;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  background-color: #f9f9f9;
+}
+
+.business-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.business-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.business-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-info {
+  padding: 15px;
+  text-align: center;
+}
+
+.card-info h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-info p {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+.dots-menu {
+  position: relative;
+  padding: 10px;
+  text-align: center;
+}
+
+.dots-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.dots-btn:hover {
+  color: #333;
+}
+
+.dots-dropdown {
+  position: absolute;
+  top: -30px;
+  right: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.dots-menu:hover .dots-dropdown,
+.dots-dropdown.active {
+  display: flex;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #555;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+/*---------------------------*/
+.floating-add-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.floating-add-btn:hover {
+  background-color: #005ec3;
+  transform: scale(1.1);
+}
+
+/* Dropdown Menu */
+.floating-btn-dropdown {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.dropdown-menu {
+  position: absolute;
+  bottom: 0;
+  right: 60px; /* Position to the left of the button */
+  display: block; /* Arrange items in a line */
+  flex-direction: row; /* Horizontal layout */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 5px 10px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-10px); /* Slide up slightly */
+}
+
+.dropdown-menu.dropdown-visible {
+  max-height: 300px; /* Adjust based on your content */
+  opacity: 1;
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-item:focus {
+  outline: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; /* Stack elements on smaller screens */
+    align-items: flex-start; /* Align items to the start */
+  }
+
+  .header-actions {
+    flex-direction: column; /* Stack actions vertically */
+    gap: 10px; /* Space between elements */
+    width: 100%; /* Full width for actions */
+  }
+
+  .search-box,
+  .filter-select {
+    width: 100%; /* Full width for inputs */
+  }
+  .business-card {
+    width: calc(50% - 20px); /* Two cards per row on smaller screens */
+  }
+
+  .business-card {
+    width: 90%;
+  }
+
+  .dots-menu {
+    text-align: center;
+  }
+
+  .dots-dropdown {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
+@media (max-width: 480px) {
+  .business-card {
+    width: 100%; /* Full width for cards on very small screens */
+  }
+}

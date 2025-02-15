@@ -1,0 +1,376 @@
+/* Business Card Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-title {
+  display: flex;
+}
+
+/* General Container Styling */
+.coupon-container {
+  width: 70%;
+  padding: 20px;
+  margin: 0 auto;
+  color: #333; /* Dark color for general text */
+}
+
+.coupon-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.coupon-item-body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.coupon-header .coupon-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.coupon-details {
+  flex-grow: 1;
+}
+
+.coupon-detail-row {
+  margin-bottom: 10px;
+}
+
+.coupon-detail-row span {
+  margin-right: 10px;
+  color: #333; /* Ensure dark color for labels */
+}
+
+/* Pending Status Styling */
+.coupon-details p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #f39c12; /* Orange color to represent Pending */
+  margin-top: 10px;
+}
+
+.coupon-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.use-btn,
+.view-details-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.use-btn:hover,
+.view-details-btn {
+  background-color: #efefef;
+  color: #555;
+}
+
+.view-details-btn:hover {
+  background-color: #fab400;
+  color: #fff;
+}
+
+button i {
+  margin-right: 10px;
+}
+
+.no-coupons {
+  text-align: center;
+  color: #888; /* Soft gray color for no coupons message */
+  margin-top: 20px;
+}
+
+.no-coupons {
+  text-align: center;
+  color: #888; /* Soft gray color for no coupons message */
+  margin-top: 20px;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #000;
+}
+
+/* Modal Header */
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Coupon Details */
+.modal-content p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/*-------------qr----------*/
+.qr-container {
+  position: relative;
+  display: inline-block;
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px; /* Adjust logo size */
+  height: 50px; /* Adjust logo size */
+  object-fit: contain;
+}
+
+.save-btn {
+  background-color: #fff;
+  color: #fab400;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.save-btn :hover {
+  background-color: #c38c00;
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+/* Modal Overlay */
+.business-modal {
+  display: none; /* Hide by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+.business-modal.show {
+  display: flex; /* Show modal when 'show' class is added */
+  opacity: 1;
+}
+
+/* Modal Content */
+.business-modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #d9534f;
+}
+
+/* Header Style */
+.business-modal h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+/* Business Details Section */
+.business-details {
+  font-size: 16px;
+  color: #555;
+}
+
+.business-details p {
+  margin: 8px 0;
+}
+
+/* Image Styling */
+.Business-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.business-name {
+  font-style: normal;
+  cursor: pointer;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.business-name:hover {
+  color: #007bff;
+}
+
+/* Loading/Error State */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+}
+
+/*-----loader------*/
+.loading {
+  margin: auto;
+  --speed-of-animation: 0.9s;
+  --gap: 6px;
+  --first-color: #4c86f9;
+  --second-color: #49a84c;
+  --third-color: #f6bb02;
+  --fourth-color: #f6bb02;
+  --fifth-color: #2196f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  gap: 6px;
+  height: 100px;
+}
+
+.loading span {
+  width: 4px;
+  height: 50px;
+  background: var(--first-color);
+  animation: scale var(--speed-of-animation) ease-in-out infinite;
+}
+
+.loading span:nth-child(2) {
+  background: var(--second-color);
+  animation-delay: -0.8s;
+}
+
+.loading span:nth-child(3) {
+  background: var(--third-color);
+  animation-delay: -0.7s;
+}
+
+.loading span:nth-child(4) {
+  background: var(--fourth-color);
+  animation-delay: -0.6s;
+}
+
+.loading span:nth-child(5) {
+  background: var(--fifth-color);
+  animation-delay: -0.5s;
+}
+
+@keyframes scale {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.05);
+  }
+
+  20% {
+    transform: scaleY(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .coupon-container {
+    width: 100%;
+  }
+  /* Coupon List */
+  .coupon-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coupon-header .coupon-image {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .coupon-actions {
+    justify-content: flex-start;
+  }
+
+  .business-modal-content {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .coupon-header .coupon-image {
+    width: 60px;
+    height: 60px;
+  }
+}

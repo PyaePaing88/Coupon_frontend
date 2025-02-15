@@ -1,0 +1,42 @@
+<div class="notifications-container">
+  <div
+    *ngFor="let notification of notifications; let i = index"
+    class="notification-card"
+    [ngClass]="{
+      'read-notification': notification.notificationStatus === 'READ'
+    }"
+  > <button class="delete-btn" (click)="deleteNotification(i, notification.id)">
+     <i class="fi fi-rr-trash"></i>
+    </button>
+  <div  (click)="gotoTask(notification,i)">
+          <div class="header">
+            <p class="title">{{ notification.title }}</p>
+          </div>
+          <div class="body">
+            <p class="content">{{ notification.content.context }}</p>
+          </div>
+          <p class="date">
+            {{ notification.notiDate | date : "medium" }}
+          </p>
+        </div>
+  </div>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="usedCoupon" class="transfer-modal">
+  <div class="transfer-modal-content">
+    <span (click)="closeModal()" class="transfer-close-btn">&times;</span>
+    <h3>Used Coupon</h3>
+    <img
+      [src]="baseUrl + usedCoupon.coupon.image"
+      usedCoupon.coupon.image
+      class="transfer-coupon-image"
+    />
+    <h4>{{ usedCoupon.coupon.packageName }}</h4>
+    <p>Purchase at - {{ usedCoupon.coupon.purchase_date | date : "medium" }}</p>
+    <p>Used at - {{ usedCoupon.used_date | date : "medium" }}</p>
+  </div>
+</div>

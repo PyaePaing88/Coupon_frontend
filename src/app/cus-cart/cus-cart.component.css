@@ -1,0 +1,244 @@
+/* General Cart Container Styling */
+.cart-container {
+  width: 90%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 550px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.cart-container::-webkit-scrollbar {
+  display: none;
+}
+
+.cart-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cart-container::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cart-header h4 {
+  margin: 0;
+  color: #333;
+  font-size: 22px;
+}
+
+.empty-cart {
+  text-align: center;
+  color: #777;
+  font-size: 18px;
+}
+
+/* Cart Item Styling */
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+}
+
+.item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.item-details h3 {
+  margin: 0;
+  color: #222;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.item-details p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.control-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-control button.control {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: #fab400;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quantity-control button.control:hover {
+  background-color: #e6a502;
+}
+
+.quantity-control input[type="number"] {
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+button.remove {
+  padding: 5px 10px;
+  background-color: #fff;
+  color: #dc3545;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+button.remove:hover {
+  color: #a71d2a;
+  background-color: #ffe3e6;
+}
+
+/* Checkout Section */
+.checkout-container {
+  width: 90%;
+  max-width: 850px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px auto 0;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.total-price {
+  font-size: 18px;
+  color: #222;
+}
+
+.checkout-button {
+  padding: 10px 40px;
+  background-color: #fab400;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-button:hover {
+  background-color: #e6a502;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .cart-container {
+    width: 95%;
+  }
+
+  .cart-header {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .cart-header h4 {
+    margin-bottom: 5px;
+    font-size: 20px;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .control-container {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .quantity-control {
+    justify-content: center;
+  }
+
+  .checkout-button {
+    padding: 10px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-container {
+    height: auto;
+    padding: 15px;
+  }
+
+  .cart-item {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .item-details h3 {
+    font-size: 16px;
+  }
+
+  .item-details p {
+    font-size: 13px;
+  }
+}

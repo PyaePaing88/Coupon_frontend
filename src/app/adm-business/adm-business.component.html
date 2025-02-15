@@ -1,0 +1,134 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="header">
+      <div class="header-title">
+        <h4>Business List</h4>
+        <div class="dropdown">
+          <button class="dropdown-button" (click)="Dropdown()">
+            <i class="fi fi-rr-angle-small-down"></i>
+          </button>
+          <div
+            class="list-btn-container"
+            [style.display]="isDropdownVisible ? 'block' : 'none'"
+          >
+            <button class="list-button" routerLink="/adm-categorylist">
+              Category List
+            </button>
+            <button class="list-button" routerLink="/adm-servicelist">
+              Service List
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <input
+          type="text"
+          placeholder="Search businesses..."
+          class="search-box"
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()"
+        />
+        <select
+          class="filter-select"
+          [(ngModel)]="selectedCategory"
+          (change)="onCategoryChange()"
+        >
+          <option value="">All Categories</option>
+          <option *ngFor="let category of showCategory" [value]="category.name">
+            {{ category.name }}
+          </option>
+        </select>
+        <select
+          class="filter-select"
+          [(ngModel)]="selectedService"
+          (change)="onServiceChange()"
+        >
+          <option value="">All Services</option>
+          <option *ngFor="let service of showService" [value]="service.name">
+            {{ service.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div
+      class="card-container"
+      [ngClass]="{
+        'expanded-layout': isSidebarCollapsed,
+        'collapsed-layout': !isSidebarCollapsed
+      }"
+    >
+      <div *ngFor="let business of filteredBusiness" class="business-card">
+        <!-- Business Image -->
+        <div *ngIf="business.image" class="business-image">
+          <img [src]="baseUrl + business.image" alt="Business Image" />
+        </div>
+
+        <!-- Card Info -->
+        <div class="card-info">
+          <h3>{{ business.name }}</h3>
+          <p>Phone: {{ business.phone }}</p>
+          <p>Email: {{ business.email }}</p>
+        </div>
+
+        <!-- Dots Menu -->
+        <div class="dots-menu">
+          <button class="dots-btn" (click)="toggleDotsMenu(business.id)">
+            <i class="fas fa-ellipsis-h"></i>
+          </button>
+          <div
+            class="dots-dropdown"
+            *ngIf="dotsMenuOpenId === business.id"
+            [@dotsDropdown]="dotsMenuOpenId === business.id ? 'open' : 'closed'"
+          >
+            <button
+              class="dropdown-item"
+              [routerLink]="['/adm-business-details', business.id]"
+            >
+              View Details
+            </button>
+            <button
+              class="dropdown-item"
+              (click)="onDeleteBusiness(business.id)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="floating-btn-dropdown">
+    <button class="floating-add-btn" (click)="toggleDropdown()">
+      <i class="fas fa-plus"></i>
+    </button>
+    <div class="dropdown-menu" [class.dropdown-visible]="isDropdownOpen">
+      <button class="dropdown-item" routerLink="Category/create">
+        Add Category
+      </button>
+      <button class="dropdown-item" routerLink="/Service/create">
+        Add Service
+      </button>
+    </div>
+  </div>
+</div>

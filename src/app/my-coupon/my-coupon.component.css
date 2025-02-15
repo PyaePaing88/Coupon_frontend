@@ -1,0 +1,599 @@
+/* Dropdown container styling */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button styling */
+.dropdown-button {
+  color: #333;
+  background-color: #f4f6f7;
+  border: none;
+  padding: 5px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.dropdown-button:hover {
+  color: #fab400;
+}
+
+/* Dropdown menu container styling */
+.list-btn-container {
+  position: absolute;
+  width: 150px;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none; /* Initially hidden */
+  display: flex;
+  flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
+  gap: 10px;
+  justify-content: center; /* Centers buttons */
+  margin-bottom: 20px;
+}
+
+.list-button {
+  background-color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.list-button:hover {
+  color: #fab400;
+}
+
+/* Business Card Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-title {
+  display: flex;
+}
+
+.coupon-container {
+  width: 70%;
+  padding: 20px;
+  margin: 0 auto;
+  color: #333; /* Dark color for general text */
+}
+
+/* Search Box Container */
+.coupon-search {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  display: block;
+  margin: 15px auto;
+}
+
+/* On Focus */
+.coupon-search:focus {
+  border-color: #888;
+}
+
+.coupon-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.coupon-item-body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.coupon-header .coupon-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.coupon-details {
+  flex-grow: 1;
+}
+
+.coupon-detail-row {
+  margin-bottom: 10px;
+}
+
+.coupon-detail-row span {
+  margin-right: 10px;
+  color: #333; /* Ensure dark color for labels */
+}
+
+/* Pending Status Styling */
+.status {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.status-confirm {
+  color: #007bff;
+}
+
+.status-declined {
+  color: red;
+}
+
+.status-pending {
+  color: #fab400;
+}
+
+.coupon-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.use-btn,
+.transfer-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.use-btn {
+  background-color: #fab400;
+  color: #fff;
+}
+
+.use-btn:hover {
+  background-color: #efefef;
+  color: #555;
+}
+
+.transfer-btn {
+  background-color: #efefef;
+  color: #555;
+}
+
+.transfer-btn:hover {
+  background-color: #fab400;
+  color: #fff;
+}
+
+button i {
+  margin-right: 10px;
+}
+
+.no-coupons {
+  text-align: center;
+  color: #888; /* Soft gray color for no coupons message */
+  margin-top: 20px;
+}
+
+.use-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.use-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Content */
+.use-modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Close Button */
+.use-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  color: #888;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.use-close-btn:hover {
+  color: #ff4d4d;
+}
+
+/* Modal Title */
+.use-modal-content h3 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* QR Code Container */
+.qr-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+/* Centered QR Image */
+.qr-img-container {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the image */
+  width: 50px;
+  height: 50px;
+  padding: 2px;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Centered QR Image */
+.qr-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.expiring-soon,
+.expiring-soon span {
+  color: red;
+  font-weight: bold;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #fab400;
+  color: #fff;
+  border: none;
+  margin: auto;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.save-btn i {
+  font-size: 18px;
+}
+
+.save-btn:hover {
+  background-color: #c78e00;
+  transform: scale(1.03);
+}
+
+/* Slide-in Animation */
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/*-----------------transfer modal-------------------*/
+/* Transfer Modal Styling */
+.transfer-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.transfer-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.transfer-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+}
+
+.transfer-coupon-image {
+  width: 50%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 15px auto;
+}
+
+.email-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #000;
+}
+
+/* Display Input Box and Button Horizontally */
+.email-input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.tran-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #fab400;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tran-btn:hover {
+  background-color: #b17f00;
+}
+
+/* Suggestions List */
+.suggestions-list {
+  list-style-type: none;
+  margin: 5px 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  max-height: 150px;
+  overflow-y: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  width: calc(72% - 10px);
+  z-index: 1;
+}
+
+.suggestions-list li {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*-----loader------*/
+.loading {
+  margin: auto;
+  --speed-of-animation: 0.9s;
+  --gap: 6px;
+  --first-color: #4c86f9;
+  --second-color: #49a84c;
+  --third-color: #f6bb02;
+  --fourth-color: #f6bb02;
+  --fifth-color: #2196f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  gap: 6px;
+  height: 100px;
+}
+
+.loading span {
+  width: 4px;
+  height: 50px;
+  background: var(--first-color);
+  animation: scale var(--speed-of-animation) ease-in-out infinite;
+}
+
+.loading span:nth-child(2) {
+  background: var(--second-color);
+  animation-delay: -0.8s;
+}
+
+.loading span:nth-child(3) {
+  background: var(--third-color);
+  animation-delay: -0.7s;
+}
+
+.loading span:nth-child(4) {
+  background: var(--fourth-color);
+  animation-delay: -0.6s;
+}
+
+.loading span:nth-child(5) {
+  background: var(--fifth-color);
+  animation-delay: -0.5s;
+}
+
+@keyframes scale {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.05);
+  }
+
+  20% {
+    transform: scaleY(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Navigation Bar */
+  .nav-links {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-link {
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .nav-links a i p {
+    margin-top: 5px;
+  }
+
+  .coupon-container {
+    width: 100%;
+  }
+
+  .coupon-search {
+    width: 90%;
+    font-size: 14px;
+  }
+
+  /* Coupon List */
+  .coupon-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .coupon-header .coupon-image {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .coupon-actions {
+    justify-content: flex-start;
+  }
+
+  .use-modal-content {
+    padding: 15px;
+    width: 95%;
+  }
+
+  .use-modal-content h3 {
+    font-size: 20px;
+  }
+
+  .qr-img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .save-btn {
+    font-size: 14px;
+  }
+
+  .transfer-modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .transfer-modal-content h2 {
+    font-size: 20px;
+  }
+
+  .email-input,
+  .tran-btn {
+    font-size: 14px;
+  }
+
+  .transfer-coupon-image {
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-link {
+    font-size: 12px;
+  }
+
+  .coupon-header .coupon-image {
+    width: 60px;
+    height: 60px;
+  }
+}

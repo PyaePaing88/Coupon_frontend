@@ -1,0 +1,101 @@
+<app-navigation></app-navigation>
+<div class="coupon-container">
+  <div class="header">
+    <div class="header-title">
+      <h4>Expired coupons</h4>
+      <div class="dropdown">
+        <button class="dropdown-button" (click)="Dropdown()">
+          <i class="fi fi-rr-angle-small-down"></i>
+        </button>
+        <div
+          class="list-btn-container"
+          [style.display]="isDropdownVisible ? 'block' : 'none'"
+        >
+          <button class="list-button" routerLink="/my-coupon">My Coupon</button>
+          <button class="list-button" routerLink="/transferlist">Transfer</button>
+          <button class="list-button" routerLink="/receivelist">Receive</button>
+          <button class="list-button" routerLink="/uselist">Use</button>
+        </div>
+      </div>
+    </div>
+    <h4>{{ expiredCoupons.length }} coupons</h4>
+  </div>
+
+  <!-- Coupon List Section -->
+  <div class="coupon-list">
+    <!-- <div *ngIf="expiredCoupons.length > 0; else noCoupons" class="coupons"> -->
+    <ul>
+      <li *ngFor="let coupon of expiredCoupons" class="coupon-item">
+        <div class="coupon-item-body">
+          <div class="coupon-header">
+            <img
+              *ngIf="coupon.image"
+              [src]="baseUrl + coupon.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+
+          <div class="coupon-details">
+            <div class="coupon-detail-row">
+              <strong>{{ coupon.packageName }}</strong>
+            </div>
+
+            <div class="coupon-detail-row">
+              <span>Expired Date:</span>
+              <strong>{{ coupon.expired_date | date : "medium" }}</strong>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="coupon-list">
+    <ul>
+      <li *ngFor="let receiveCoupon of receiveCoupons" class="coupon-item">
+        <div class="coupon-item-body">
+          <div class="coupon-header">
+            <img
+              *ngIf="receiveCoupon.image"
+              [src]="baseUrl + receiveCoupon.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+
+          <div class="coupon-details">
+            <div class="coupon-detail-row">
+              <span>Package Name:</span>
+              <strong>{{ receiveCoupon.packageName }}</strong>
+            </div>
+
+            <div class="coupon-detail-row">
+              <span>Expired Date:</span>
+              <strong>{{
+                receiveCoupon.expired_date | date : "medium"
+              }}</strong>
+            </div>
+
+            <div class="coupon-detail-row">
+              <span>Sender Name:</span>
+              <strong>{{ receiveCoupon.senderName }}</strong>
+            </div>
+
+            <div class="coupon-detail-row">
+              <span>Transfer Date:</span>
+              <strong>{{receiveCoupon.transfer_date | date : "medium"}}</strong>
+            </div>
+
+            <div class="coupon-detail-row">
+              <span>Transfer Note:</span>
+              <strong>{{ receiveCoupon.note }}</strong>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<app-footer></app-footer>

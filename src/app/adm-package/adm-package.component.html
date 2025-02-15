@@ -1,0 +1,127 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="header">
+      <h4>Package List</h4>
+      <div class="header-actions">
+        <input
+          type="text"
+          placeholder="Search packages..."
+          [(ngModel)]="searchText"
+          (input)="filterPackages()"
+          class="search-box"
+        />
+        <div class="range-filter">
+          <input
+            type="number"
+            placeholder="Min Price"
+            class="number-input"
+            [(ngModel)]="minPrice"
+            (input)="filterPackages()"
+          />
+          <input
+            type="number"
+            placeholder="Max Price"
+            class="number-input"
+            [(ngModel)]="maxPrice"
+            (input)="filterPackages()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <table class="package-table">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Business</th>
+          <th>Created</th>
+          <th>Expired</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let package of filteredPackages; let i = index">
+          <td>
+            <div *ngIf="package.image">
+              <img
+                [src]="baseUrl + package.image"
+                alt="Package Image"
+                class="package-image"
+              />
+            </div>
+          </td>
+          <td>{{ package.name }}</td>
+          <td>
+            <span *ngIf="package.quantity === 0" class="status-badge soldout"
+              >Sold Out</span
+            >
+            <span
+              *ngIf="isExpired(package.expired_date)"
+              class="status-badge expired"
+              >Expired</span
+            >
+            <span
+              *ngIf="package.quantity > 0 && !isExpired(package.expired_date)"
+              class="status-badge available"
+              >Available</span
+            >
+          </td>
+
+          <td>{{ package.unit_price }} MMK</td>
+          <td>{{ package.quantity }}</td>
+          <td>{{ package.businessName }}</td>
+          <td>{{ package.create_date | date : "medium" }}</td>
+          <td>{{ package.expired_date | date : "medium" }}</td>
+          <td>
+            <div class="description-cell">
+              <span
+                class="description-text"
+                [ngClass]="{ expanded: expandedIndex === i }"
+              >
+                {{
+                  expandedIndex === i
+                    ? package.description
+                    : (package.description | slice : 0 : 50) + "..."
+                }}
+              </span>
+              <button class="see-more-btn" (click)="toggleDescription(i)">
+                {{ expandedIndex === i ? "See Less" : "See More" }}
+              </button>
+            </div>
+          </td>
+          <td>
+            <button (click)="onDelete(package.id)" class="delete-btn">
+              <i class="fi fi-rr-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>

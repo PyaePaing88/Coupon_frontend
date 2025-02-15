@@ -1,0 +1,186 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="dashboard-container">
+      <!-- Admin Profile Section -->
+      <div class="header">
+        <div class="profile-section">
+          <img
+            [src]="
+              profileImage?.startsWith('users_images')
+                ? baseUrl + profileImage
+                : profileImage
+            "
+            alt="Profile Image"
+            class="profile-image"
+            [routerLink]="['/adm-profile', userId]"
+          />
+          <div class="profile-text">
+            <p>
+              <strong>{{ userName }}</strong>
+            </p>
+            <p class="email">{{ userEmail }}</p>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button
+            class="actions-btn"
+            alt="Notification"
+            (click)="toggleNotification()"
+          >
+            <i class="fi fi-rr-bell-ring"></i>
+            <span class="tooltip">Notification</span>
+          </button>
+
+          <button class="actions-btn" (click)="logout()" alt="Logout">
+            <i class="fi fi-sr-sign-out-alt"></i>
+            <span class="tooltip">Logout</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="Quantity">
+        <div class="Quantity-card" (click)="navigateTo('/adm-user-list')">
+          <div>
+            <h6>Total Login Users</h6>
+            <p>{{ totalLoginUsers }}</p>
+          </div>
+          <i class="fi fi-rr-users-alt"></i>
+        </div>
+        <div class="Quantity-card" (click)="navigateTo('/adm-business')">
+          <div>
+            <h6>Total Businesses</h6>
+            <p>{{ totalBusinesses }}</p>
+          </div>
+          <i class="fi fi-rr-briefcase"></i>
+        </div>
+        <div class="Quantity-card" (click)="navigateTo('/adm-package')">
+          <div>
+            <h6>Total Packages</h6>
+            <p>{{ totalPackages }}</p>
+          </div>
+          <i class="fi fi-rr-box-alt"></i>
+        </div>
+        <div class="Quantity-card" (click)="navigateTo('/adm-coupon')">
+          <div>
+            <h6>Total Coupon Sales</h6>
+            <p>{{ totalCouponSales }}</p>
+          </div>
+          <i class="fi fi-rr-chart-histogram"></i>
+        </div>
+      </div>
+
+      <div class="bar-chart-container">
+        <div class="barchart-head">
+          <h3>Coupon Sales Over Time</h3>
+          <div class="date-picker-container">
+            <div>
+              <label for="startDate">from:</label>
+              <input
+                type="date"
+                id="startDate"
+                [(ngModel)]="startDate"
+                (change)="onDateChange()"
+              />
+            </div>
+            <div>
+              <label for="endDate">to:</label>
+              <input
+                type="date"
+                id="endDate"
+                [(ngModel)]="endDate"
+                (change)="onDateChange()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <ngx-charts-bar-vertical
+          class="barchart"
+          [view]="view"
+          [results]="chartData"
+          [xAxis]="false"
+          [yAxis]="true"
+          [showXAxisLabel]="true"
+          [xAxisTickFormatting]="formatXAxis"
+          [showYAxisLabel]="true"
+          [yAxisLabel]="'Sales Count'"
+          [yAxisTickFormatting]="customYAxisTickFormatting"
+          [yScaleMin]="0"
+          [scheme]="colorScheme"
+        >
+        </ngx-charts-bar-vertical>
+      </div>
+      <div class="charts-container">
+        <!-- Pie Chart -->
+        <div class="pie-chart-section">
+          <h3>Payment-method Categories</h3>
+
+          <div *ngIf="filteredPieChartData.length === 0; else chart">
+            No data available for the chart.
+          </div>
+
+          <ng-template #chart>
+            <div class="pie-chart-container">
+              <ngx-charts-pie-chart
+                [view]="view2"
+                [scheme]="colorScheme2"
+                [results]="filteredPieChartData"
+                [gradient]="gradient2"
+                [legend]="showLegend2"
+                [doughnut]="true"
+                [arcWidth]="0.3"
+                [animations]="true"
+                [labels]="false"
+                [explodeSlices]="false"
+                (select)="onChartSelect($event)"
+              >
+              </ngx-charts-pie-chart>
+
+              <!-- Text Overlay in Center -->
+              <div class="pie-chart-text">
+                <p>{{ confirmedPurchaseCount }}</p>
+              </div>
+              <div class="pie-chart-text2">
+                <p>Purchases</p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+
+        <div class="feedback">
+          <h3>Feedback List</h3>
+          <app-adm-feedback-list></app-adm-feedback-list>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="noti-model" [ngClass]="{ show: isNotificationOpen }">
+  <div class="noti-head">
+    <h4>Notification</h4>
+    <a (click)="toggleNotification()"><i class="fa-solid fa-xmark"></i></a>
+  </div>
+  <app-notification></app-notification>
+</div>

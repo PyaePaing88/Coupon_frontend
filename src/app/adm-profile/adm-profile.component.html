@@ -1,0 +1,193 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="profile-container">
+      <div class="profile-nav" role="navigation">
+        <a
+          class="tab"
+          [class.active]="activeTab === 'photo'"
+          (click)="switchTab('photo')"
+          aria-label="Change password"
+        >
+          Profile
+        </a>
+        <a
+          class="tab"
+          [class.active]="activeTab === 'account-general'"
+          (click)="switchTab('account-general')"
+          aria-current="page"
+          aria-label="General settings"
+        >
+          General
+        </a>
+        <a
+          class="tab"
+          [class.active]="activeTab === 'account-change-password'"
+          (click)="switchTab('account-change-password')"
+          aria-label="Change password"
+        >
+          Password
+        </a>
+      </div>
+      <div class="profile-content">
+        <div
+          id="account-general"
+          class="tab-content"
+          [class.active]="activeTab === 'photo'"
+        >
+          <div class="profile-upload">
+            <form (ngSubmit)="onSubmit()" #photoUploadForm="ngForm">
+              <div class="profile-photo-section">
+                <img
+                  [src]="
+                    photoPreview ||
+                    (profileImage?.startsWith('users_images')
+                      ? baseUrl + profileImage
+                      : profileImage)
+                  "
+                  alt="Profile Photo"
+                  class="profile-photo"
+                  (click)="fileInput.click()"
+                />
+                <div class="upload-section">
+                  <input
+                    #fileInput
+                    type="file"
+                    (change)="onPhotoChange($event)"
+                    name="photo"
+                    accept="image/jpeg, image/png, image/gif"
+                    required
+                    style="display: none"
+                  />
+                  <button
+                    class="btn btn-upload"
+                    type="submit"
+                    [disabled]="!photoUploadForm.form.valid"
+                    aria-label="Upload profile photo"
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div
+          id="account-general"
+          class="tab-content"
+          [class.active]="activeTab === 'account-general'"
+        >
+          <div class="form-section" *ngIf="userDetails">
+            <div class="form-group">
+              <label for="username">User name</label>
+              <input
+                id="username"
+                type="text"
+                [(ngModel)]="userDetails.name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input
+                id="phone"
+                type="tel"
+                [(ngModel)]="userDetails.phone"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                type="email"
+                [(ngModel)]="userDetails.email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button
+              class="btn"
+              (click)="saveChanges()"
+              aria-label="Save changes"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="account-change-password"
+          class="tab-content"
+          [class.active]="activeTab === 'account-change-password'"
+        >
+          <div class="form-section">
+            <div class="form-group">
+              <label for="current-password">Current Password</label>
+              <input
+                id="current-password"
+                type="password"
+                [(ngModel)]="currentPassword"
+                placeholder="abc123!@#"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="new-password">New Password</label>
+              <input
+                id="new-password"
+                type="password"
+                [(ngModel)]="newPassword"
+                placeholder="abc123!@#"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="repeat-password">Repeat New Password</label>
+              <input
+                id="repeat-password"
+                type="password"
+                [(ngModel)]="repeatNewPassword"
+                placeholder="abc123!@#"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button
+              class="btn btn-save"
+              (click)="changePassword()"
+              aria-label="Save password changes"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  </main>
+</div>

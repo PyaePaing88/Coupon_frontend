@@ -1,0 +1,96 @@
+<app-navigation></app-navigation>
+<div class="coupon-container">
+  <div class="header">
+    <div class="header-title">
+      <h4>Used coupons</h4>
+      <div class="dropdown">
+        <button class="dropdown-button" (click)="Dropdown()">
+          <i class="fi fi-rr-angle-small-down"></i>
+        </button>
+        <div
+          class="list-btn-container"
+          [style.display]="isDropdownVisible ? 'block' : 'none'"
+        >
+          <button class="list-button" routerLink="/my-coupon">My Coupon</button>
+          <button class="list-button" routerLink="/transferlist">
+            Transfer
+          </button>
+          <button class="list-button" routerLink="/receivelist">Receive</button>
+          <button class="list-button" routerLink="/expiredlist">Expired</button>
+        </div>
+      </div>
+    </div>
+    <h4>{{ useList.length + reciveList.length }} coupons</h4>
+  </div>
+
+  <!-- Coupon List Section -->
+  <div class="coupon-list">
+    <div *ngIf="useList.length > 0" class="coupons">
+      <div *ngFor="let use of useList" class="coupon-item">
+        <div class="coupon-item-body">
+          <div class="coupon-header">
+            <img
+              *ngIf="use.image"
+              [src]="baseUrl + use.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+        </div>
+
+        <div class="coupon-details">
+          <div class="coupon-detail-row">
+            <strong>{{ use.packageName }}</strong>
+          </div>
+
+          <div class="coupon-detail-row">
+            <span>Used Date:</span>
+            <strong>{{ use.used_date | date : "medium" }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="coupon-list">
+    <div *ngIf="reciveList.length > 0" class="coupons">
+      <div *ngFor="let receive of reciveList" class="coupon-item">
+        <div class="coupon-item-body">
+          <div class="coupon-header">
+            <img
+              *ngIf="receive.image"
+              [src]="baseUrl + receive.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+        </div>
+
+        <div class="coupon-details">
+          <div class="coupon-detail-row">
+            <span>Package Name:</span>
+            <strong>{{ receive.packageName }}</strong>
+          </div>
+
+          <div class="coupon-detail-row">
+            <span>Used Date:</span>
+            <strong>{{ receive.used_date | date : "short" }}</strong>
+          </div>
+
+          <div class="coupon-detail-row">
+            <span>Sender Name:</span>
+            <strong>{{ receive.senderName }}</strong>
+          </div>
+
+          <div class="coupon-detail-row">
+            <span>Transfer Note:</span>
+            <strong>{{ receive.note }}</strong>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

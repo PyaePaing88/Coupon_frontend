@@ -1,0 +1,119 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="header">
+      <h4>User List</h4>
+      <div class="header-actions">
+        <!-- Search Input -->
+        <input
+          type="text"
+          placeholder="Search users..."
+          class="search-box"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchChange($event)"
+        />
+
+        <!-- Role Filter -->
+        <select
+          class="filter-select"
+          [(ngModel)]="selectedRole"
+          (change)="onRoleChange($event)"
+        >
+          <option value="">All Roles</option>
+          <option value="admin">Admin</option>
+          <option value="customer">Customer</option>
+          <option value="business">Business</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- User Table -->
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Profile</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Register Date</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>
+            <img
+              [src]="
+                !user.photo
+                  ? baseUrl + 'users_images/default.png'
+                  : user.photo.startsWith('users_images')
+                  ? baseUrl + user.photo
+                  : user.photo
+              "
+              alt="Profile Image"
+              class="profile-image"
+            />
+          </td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone || "Google login" }}</td>
+          <td>{{ user.register_date | date : "medium" }}</td>
+          <td>
+            <span *ngIf="user.role === 'CUSTOMER'" class="status-badge Customer"
+              >Customer</span
+            >
+            <span *ngIf="user.role === 'ADMIN'" class="status-badge Admin"
+              >Admin</span
+            >
+            <span *ngIf="user.role === 'BUSINESS'" class="status-badge Business"
+              >Business</span
+            >
+          </td>
+          <td>
+            <button
+              *ngIf="user.id"
+              (click)="deleteUser(user.id)"
+              class="delete-btn"
+            >
+              <i class="fi fi-rr-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+</div>
+<div class="floating-btn-dropdown">
+  <button class="floating-add-btn" (click)="toggleDropdown()">
+    <i class="fas fa-plus"></i>
+  </button>
+  <div class="dropdown-menu" [class.dropdown-visible]="isDropdownOpen">
+    <button class="dropdown-item" routerLink="/adm-register">Add Admin</button>
+    <button class="dropdown-item" routerLink="/business-register">
+      Add Business
+    </button>
+  </div>
+</div>

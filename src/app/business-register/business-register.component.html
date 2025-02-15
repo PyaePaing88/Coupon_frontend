@@ -1,0 +1,119 @@
+<div class="app-container">
+  <div class="sidebar-container">
+    <app-adm-sidebar
+      [isSidebarCollapsed]="isSidebarCollapsed"
+      (sidebarToggle)="onSidebarToggle()"
+    >
+    </app-adm-sidebar>
+    <button
+      class="sidebar-toggle-btn"
+      [ngClass]="{ 'sidebar-collapsed': isSidebarCollapsed }"
+      (click)="onSidebarToggle()"
+    >
+      <i
+        [class]="
+          isSidebarCollapsed
+            ? 'fa-solid fa-angle-left'
+            : 'fa-solid fa-angle-right'
+        "
+      ></i>
+    </button>
+  </div>
+
+  <main class="content" [ngClass]="{ 'content-expanded': isSidebarCollapsed }">
+    <div class="container">
+      <h2>Create business account</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-user"></i>
+            <input
+              formControlName="username"
+              type="text"
+              id="username"
+              placeholder="Enter name"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('username')?.touched &&
+              registerForm.get('username')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('username')?.errors?.['required']">
+              Username is required.
+            </small>
+            <small *ngIf="registerForm.get('username')?.errors?.['minlength']">
+              Minimum 3 characters required.
+            </small>
+          </div>
+        </div>
+
+        <!-- Phone Field -->
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-phone-call"></i>
+            <input
+              formControlName="phone"
+              type="text"
+              id="phone"
+              placeholder="Enter phone"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('phone')?.touched &&
+              registerForm.get('phone')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('phone')?.errors?.['required']">
+              Phone is required.
+            </small>
+          </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="inputForm">
+            <i class="fi fi-rr-at"></i>
+            <input
+              formControlName="email"
+              type="email"
+              id="email"
+              placeholder="Enter email"
+            />
+          </div>
+          <div
+            *ngIf="
+              registerForm.get('email')?.touched &&
+              registerForm.get('email')?.invalid
+            "
+            class="error-text"
+          >
+            <small *ngIf="registerForm.get('email')?.errors?.['required']">
+              Email is required.
+            </small>
+            <small *ngIf="registerForm.get('email')?.errors?.['email']">
+              Enter a valid email address.
+            </small>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="btn-container">
+          <button type="submit" class="button-submit">Register</button>
+          <button class="button-submit" (click)="onCancel()">Cancle</button>
+        </div>
+      </form>
+      <div class="default-password">
+        <h3>'Coupon12345' is default password.</h3>
+      </div>
+    </div>
+  </main>
+</div>

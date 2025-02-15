@@ -1,0 +1,114 @@
+<app-navigation></app-navigation>
+<div class="payment-history">
+  <h2>Payment History</h2>
+
+  <div class="loading" *ngIf="loading">Loading...</div>
+  <div class="error" *ngIf="error">{{ error }}</div>
+  <div *ngIf="!loading && !error">
+    <div
+      class="payment-card"
+      *ngFor="let payment of purchases"
+      (click)="openCouponModal(payment)"
+    >
+      <div class="payment-row">
+        <span class="payment-label">Date:</span>
+        <span class="payment-value">{{
+          payment.purchase_date | date : "medium"
+        }}</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">Amount:</span>
+        <span class="payment-value">{{ payment.total_amount }} MMK</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">Quantity:</span>
+        <span class="payment-value">{{ payment.total_quantity }}</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">Method:</span>
+        <span class="payment-value">{{ payment.payment_type }}</span>
+      </div>
+      <div class="payment-row">
+        <span class="payment-label">TransactionId:</span>
+        <span class="payment-value">{{ payment.transaction_id }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="purchases.length === 0" class="no-data">
+      No payment history found.
+    </div>
+  </div>
+</div>
+
+<!-- Modal for showing coupon list and selected payment details -->
+<div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <a class="close-button" (click)="closeModal()"
+      ><i class="fa-solid fa-xmark"></i
+    ></a>
+
+    <div class="payment">
+      <div *ngIf="selectedPayment" class="payment-container">
+        <h4>Payment Details</h4>
+        <div class="payment-row">
+          <span class="payment-label">Date:</span>
+          <span class="payment-value">{{
+            selectedPayment.purchase_date | date : "medium"
+          }}</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Amount:</span>
+          <span class="payment-value"
+            >{{ selectedPayment.total_amount }} MMK</span
+          >
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Quantity:</span>
+          <span class="payment-value">{{
+            selectedPayment.total_quantity
+          }}</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Method:</span>
+          <span class="payment-value">{{ selectedPayment.payment_type }}</span>
+        </div>
+        <div class="payment-row">
+          <span class="payment-label">Transactionb Id:</span>
+          <span class="payment-value">{{
+            selectedPayment.transaction_id
+          }}</span>
+        </div>
+      </div>
+
+      <h4 class="coupon-header">Purchased coupons</h4>
+      <div *ngIf="coupons.length > 0" class="coupon-container">
+        <div class="coupon-row" *ngFor="let coupon of coupons">
+          <div class="coupon-image-container">
+            <img
+              *ngIf="coupon.image"
+              [src]="baseUrl + coupon.image"
+              alt="Coupon Image"
+              class="coupon-image"
+            />
+          </div>
+          <div class="coupon-details">
+            <h6>{{ coupon.packageName }}</h6>
+            <p>
+              <strong>Expires on:</strong>
+              {{ coupon.expired_date | date : "medium" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="coupons.length === 0" class="no-data">
+      No coupons available for this purchase.
+    </div>
+
+    <div class="modal-footer">
+      <button class="save-button" (click)="saveAsImage()">Save</button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
